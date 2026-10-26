@@ -96,11 +96,19 @@ small.end{color:var(--muted);text-align:center;font-size:12px}
 .chips{display:flex;gap:6px}
 .chip{flex:1 1 0;min-width:0;min-height:38px;padding:0 6px;border-radius:99px;border:1.5px solid var(--c);background:transparent;color:var(--fg);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--c);color:#0b1020}
-.chip:focus-visible,.pl:focus-visible{outline:3px solid var(--d2);outline-offset:2px}
-svg.map{width:100%;height:auto;display:block;border-radius:10px;overflow:hidden;touch-action:manipulation}
+.chip:focus-visible,.pl:focus-visible,.zb:focus-visible{outline:3px solid var(--d2);outline-offset:2px}
+.mapwrap{position:relative;border-radius:10px;overflow:hidden}
+svg.map{width:100%;height:auto;display:block;user-select:none;-webkit-user-select:none}
 svg.map .pt{cursor:pointer;outline:none}
-svg.map .pt:focus-visible{outline:2px solid var(--d2)}
-svg.map .pt text{font:700 11px var(--f-body);fill:#0b1020;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+svg.map .pt:focus-visible rect:first-of-type{stroke:var(--d2);stroke-width:2}
+svg.map .pt text{font:700 8px var(--f-body);fill:#0b1020;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+svg.map .lb{pointer-events:none}
+svg.map .lb text{font:600 8.5px var(--f-body);fill:#cfd6ee;paint-order:stroke;stroke:#1b2548;stroke-width:2.4px;stroke-linejoin:round}
+svg.map .lb.bold text{font-weight:800;fill:#fff}
+.zoomctl{position:absolute;left:8px;bottom:8px;display:flex;gap:6px}
+.zb{min-width:32px;height:32px;padding:0 6px;border-radius:8px;border:1px solid rgba(255,255,255,.35);background:rgba(10,14,28,.8);color:#fff;font:700 16px/1 var(--f-body);cursor:pointer}
+.zb.wide{padding:0 9px;font-size:12px}
+.zb:disabled{opacity:.4;cursor:default}
 .mapnote{font-size:12px;line-height:1.5}
 .callout{--c:#fff;display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06)}
 .callout .meta{font:600 12px/1.4 var(--f-mono);color:var(--c)}
@@ -108,9 +116,9 @@ svg.map .pt text{font:700 11px var(--f-body);fill:#0b1020;text-anchor:middle;dom
 .callout .btn{align-self:flex-start;min-height:40px;margin-top:2px}
 .plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .plist .dh{margin-top:6px;padding:10px 4px 6px;border-top:1px solid var(--line);font:700 12px/1 var(--f-mono);letter-spacing:.04em;color:var(--c)}
-.pl{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;width:100%;padding:8px 6px;border:0;border-radius:8px;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.pl{display:grid;grid-template-columns:36px minmax(0,1fr);gap:10px;align-items:start;width:100%;padding:8px 6px;border:0;border-radius:8px;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .pl.on{background:rgba(255,255,255,.09)}
-.pl .badge{width:26px;height:26px;border-radius:50%;background:var(--c);color:#0b1020;font:700 12px/26px var(--f-mono);text-align:center}
+.pl .badge{min-width:34px;height:20px;margin-top:2px;padding:0 4px;border-radius:10px;background:var(--c);color:#0b1020;font:700 11px/20px var(--f-mono);text-align:center}
 .pl .pb{display:flex;flex-direction:column;gap:2px;min-width:0}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
@@ -222,58 +230,98 @@ var DC={0:'#ffffff',1:'var(--d1)',2:'var(--d2)',3:'var(--d3)',4:'var(--d4)'};
 var DL={0:'숙소',1:'1일차 · 11/3 (화)',2:'2일차 · 11/4 (수)',3:'3일차 · 11/5 (목)',4:'4일차 · 11/6 (금)'};
 var PTS=[
  {id:'h',day:0,n:'H',name:'선샤인 시티 프린스 호텔',time:'3박',desc:'이케부쿠로 선샤인 시티 옆 숙소. 11/3 18:00 체크인 후 선샤인 시티 자유일정.',lat:35.7292,lng:139.7195,dx:7,dy:4,link:HOTEL_LINK},
- {id:'a1',day:1,n:1,name:'우에노 공원 · 박물관',time:'14:00',desc:'공원 산책 후 국립과학박물관, 국립서양미술관 견학.',lat:35.7155,lng:139.7752,q:'上野公園'},
- {id:'a2',day:1,n:2,name:'도쿄 타워',time:'16:30',desc:'도쿄 타워 견학 후 호텔로 이동.',lat:35.6586,lng:139.7454,q:'東京タワー'},
- {id:'b1',day:2,n:1,name:'신주쿠 교엔',time:'09:00',desc:'디자인계열 견학. 소프트웨어계열은 같은 시간에 GHI 기업을 방문합니다.',lat:35.6852,lng:139.7100,q:'新宿御苑'},
- {id:'b2',day:2,n:2,name:'스기나미소고 고등학교',time:'11:00',desc:'도쿄도립 스기나미소고 고등학교 공식 방문. 점심은 학교 제공 도시락.',lat:35.6838,lng:139.6240,q:'東京都立杉並総合高等学校'},
- {id:'b3',day:2,n:3,name:'시부야 미야시타 파크',time:'17:00',desc:'4인 1조 자유일정. 조별 일본문화 체험.',lat:35.6620,lng:139.7020,q:'渋谷 MIYASHITA PARK'},
- {id:'c1',day:3,n:1,name:'도쿄 디즈니씨',time:'09:30',desc:'1일 자유일정. 저녁은 야키니쿠.',lat:35.6267,lng:139.8851,q:'東京ディズニーシー'},
- {id:'c2',day:3,n:2,name:'이케부쿠로',time:'20:00',desc:'로프트, 돈키호테, 애니메이트 등 자유일정. 교사와 가이드가 동행합니다.',lat:35.7295,lng:139.7109,dx:-7,dy:-3,q:'池袋駅'},
- {id:'d1',day:4,n:1,name:'센소지',time:'09:00',desc:'센소지 견학 후 나리타 국제공항으로 이동. 13:20 출발.',lat:35.7148,lng:139.7967,q:'浅草寺'}
+ {id:'a1',day:1,n:'1-1',name:'우에노 공원 · 박물관',time:'14:00',desc:'공원 산책 후 국립과학박물관, 국립서양미술관 견학.',lat:35.7155,lng:139.7752,dx:-3,q:'上野公園'},
+ {id:'a2',day:1,n:'1-2',name:'도쿄 타워',time:'16:30',desc:'도쿄 타워 견학 후 호텔로 이동.',lat:35.6586,lng:139.7454,q:'東京タワー'},
+ {id:'b1',day:2,n:'2-1',name:'신주쿠 교엔',time:'09:00',desc:'디자인계열 견학. 소프트웨어계열은 같은 시간에 GHI 기업을 방문합니다.',lat:35.6852,lng:139.7100,dx:6,dy:4,q:'新宿御苑'},
+ {id:'b2',day:2,n:'2-2',name:'스기나미소고 고등학교',time:'11:00',desc:'도쿄도립 스기나미소고 고등학교 공식 방문. 점심은 학교 제공 도시락.',lat:35.6838,lng:139.6240,q:'東京都立杉並総合高等学校'},
+ {id:'b3',day:2,n:'2-3',name:'시부야 미야시타 파크',time:'17:00',desc:'4인 1조 자유일정. 조별 일본문화 체험.',lat:35.6620,lng:139.7020,dx:8,dy:-2,q:'渋谷 MIYASHITA PARK'},
+ {id:'c1',day:3,n:'3-1',name:'도쿄 디즈니씨',time:'09:30',desc:'1일 자유일정. 저녁은 야키니쿠.',lat:35.6267,lng:139.8851,q:'東京ディズニーシー'},
+ {id:'c2',day:3,n:'3-2',name:'이케부쿠로',time:'20:00',desc:'로프트, 돈키호테, 애니메이트 등 자유일정. 교사와 가이드가 동행합니다.',lat:35.7295,lng:139.7109,dx:-7,dy:-3,q:'池袋駅'},
+ {id:'d1',day:4,n:'4-1',name:'센소지',time:'09:00',desc:'센소지 견학 후 나리타 국제공항으로 이동. 13:20 출발.',lat:35.7148,lng:139.7967,dx:4,q:'浅草寺'}
 ];
 var ROUTES={1:['a1','a2','h'],2:['h','b1','b2','b3','h'],3:['h','c1','c2'],4:['h','d1']};
 var COAST=[[139.735,35.60],[139.745,35.625],[139.78,35.645],[139.82,35.645],[139.865,35.640],[139.905,35.605],[139.93,35.605],[139.93,35.60]];
 var YAMA=[[35.7295,139.7109],[35.6896,139.7006],[35.6580,139.7016],[35.6340,139.7158],[35.6285,139.7387],[35.6554,139.7571],[35.6812,139.7671],[35.6984,139.7731],[35.7141,139.7774],[35.7278,139.7708],[35.7314,139.7289]];
-var STN=[['이케부쿠로',35.7295,139.7109,-30,3,'end'],['신주쿠',35.6896,139.7006,-6,3,'end'],['시부야',35.6580,139.7016,-14,3,'end'],['도쿄역',35.6812,139.7671,-6,3,'end']];
-var MSEL='h',MF=0;
+/* 이름, 위도, 경도, 글자 dx, dy, 정렬, 확대 시에만(1), 강조(1), 점 표시(1) */
+var LBL=[
+ ['도쿄역',35.6812,139.7671,6,3,'start',0,1,1],
+ ['우에노',35.7141,139.7774,-20,3,'end',0,0,0],
+ ['이케부쿠로',35.7295,139.7109,-21,3,'end',0,0,0],
+ ['신주쿠',35.6896,139.7006,-6,3,'end',0,0,1],
+ ['시부야',35.6580,139.7016,-6,3,'end',0,0,1],
+ ['시나가와',35.6285,139.7387,5,3,'start',0,0,1],
+ ['아사쿠사',35.7148,139.7967,4,21,'middle',0,0,0],
+ ['아키하바라',35.6984,139.7731,5,3,'start',1,0,1],
+ ['긴자',35.6717,139.7640,5,3,'start',1,0,1],
+ ['롯폰기',35.6628,139.7314,-6,3,'end',1,0,1],
+ ['하라주쿠',35.6702,139.7027,-6,3,'end',1,0,1],
+ ['오다이바',35.6290,139.7750,0,3,'middle',1,0,0]
+];
+var MSEL='h',MF=0,V={z:1,cx:MW/2,cy:MH/2},ZMAX=5;
 PTS.forEach(function(p){p.x=mx(p.lng)+(p.dx||0);p.y=my(p.lat)+(p.dy||0)});
 function pById(id){for(var i=0;i<PTS.length;i++){if(PTS[i].id===id)return PTS[i]}}
 function f1(n){return Math.round(n*10)/10}
+function mapLink(p){return p.link||(MAP+encodeURIComponent(p.q))}
+var DOT='stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" fill="none"';
 function mapSVG(){
  var s='<svg class="map" viewBox="0 0 '+MW+' '+MH+'" role="img" aria-label="도쿄 주요 장소 약식 지도">';
  s+='<rect width="'+MW+'" height="'+MH+'" fill="#1b2548"/>';
- s+='<polygon points="'+COAST.map(function(c){return f1(mx(c[0]))+','+f1(my(c[1]))}).join(' ')+'" fill="#10304f" stroke="#2f5f8f" stroke-width="1"/>';
- s+='<text x="'+f1(mx(139.835))+'" y="'+f1(my(35.617))+'" font-size="10" fill="#7fb0e0" text-anchor="middle" font-style="italic">도쿄만</text>';
- s+='<polygon points="'+YAMA.map(function(c){return f1(mx(c[1]))+','+f1(my(c[0]))}).join(' ')+'" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.6" stroke-dasharray="2 3"/>';
- STN.forEach(function(t){var x=mx(t[2]),y=my(t[1]);s+='<circle cx="'+f1(x)+'" cy="'+f1(y)+'" r="2.4" fill="rgba(255,255,255,.55)"/><text x="'+f1(x+t[3])+'" y="'+f1(y+t[4])+'" font-size="9.5" fill="#aab4d6" text-anchor="'+t[5]+'">'+t[0]+'</text>'});
- s+='<text x="8" y="'+(MH-8)+'" font-size="9.5" fill="#aab4d6">점선은 야마노테선(순환)</text>';
+ s+='<polygon points="'+COAST.map(function(c){return f1(mx(c[0]))+','+f1(my(c[1]))}).join(' ')+'" fill="#10304f" stroke="#2f5f8f" stroke-width="1" vector-effect="non-scaling-stroke"/>';
+ s+='<text x="'+f1(mx(139.84))+'" y="'+f1(my(35.617))+'" font-size="9" fill="#7fb0e0" text-anchor="middle" font-style="italic">도쿄만</text>';
+ s+='<polygon points="'+YAMA.map(function(c){return f1(mx(c[1]))+','+f1(my(c[0]))}).join(' ')+'" stroke="rgba(255,255,255,.4)" stroke-width="1.8" stroke-dasharray="0.1 5" '+DOT+'/>';
  [1,2,3,4].forEach(function(d){
   var dim=MF&&MF!==d,pts=ROUTES[d].map(function(id){var p=pById(id);return f1(p.x)+','+f1(p.y)}).join(' ');
-  s+='<polyline points="'+pts+'" fill="none" style="stroke:'+DC[d]+'" stroke-width="2.2" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round" opacity="'+(dim?.12:.8)+'"/>';
+  s+='<polyline points="'+pts+'" style="stroke:'+DC[d]+'" stroke-width="2.6" stroke-dasharray="0.1 6" '+DOT+' opacity="'+(dim?.15:.95)+'"/>';
  });
  var sn=pById('d1'),d4dim=MF&&MF!==4;
- s+='<g opacity="'+(d4dim?.2:1)+'" style="fill:'+DC[4]+';stroke:'+DC[4]+'"><line x1="'+f1(sn.x+10)+'" y1="'+f1(sn.y)+'" x2="256" y2="'+f1(sn.y)+'" stroke-width="2.2" stroke-dasharray="6 4"/><text x="260" y="'+f1(sn.y+4)+'" stroke="none" font-size="11" font-weight="700">나리타 공항 →</text><text x="260" y="'+f1(sn.y+17)+'" stroke="none" font-size="9.5" opacity=".85">도쿄 동쪽 약 60km</text></g>';
+ s+='<g opacity="'+(d4dim?.25:1)+'" style="fill:'+DC[4]+'"><line x1="'+f1(sn.x+8)+'" y1="'+f1(sn.y)+'" x2="254" y2="'+f1(sn.y)+'" style="stroke:'+DC[4]+'" stroke-width="2.6" stroke-dasharray="0.1 6" '+DOT+'/><text x="258" y="'+f1(sn.y+3)+'" font-size="9.5" font-weight="700">나리타 공항 →</text><text x="258" y="'+f1(sn.y+14)+'" font-size="8" opacity=".85">도쿄 동쪽 약 60km</text></g>';
+ LBL.forEach(function(t){
+  s+='<g class="lb'+(t[7]?' bold':'')+'" data-x="'+f1(mx(t[2]))+'" data-y="'+f1(my(t[1]))+'"'+(t[6]?' data-minor="1"':'')+'>';
+  if(t[8])s+='<circle r="'+(t[7]?3:2)+'" fill="'+(t[7]?'#fff':'rgba(255,255,255,.6)')+'"/>';
+  s+='<text x="'+t[3]+'" y="'+t[4]+'" text-anchor="'+t[5]+'">'+t[0]+'</text></g>';
+ });
  var order=PTS.filter(function(p){return p.id!==MSEL}).concat([pById(MSEL)]);
  order.forEach(function(p){
-  var dim=MF&&p.day!==0&&p.day!==MF,sel=p.id===MSEL,x=f1(p.x),y=f1(p.y);
-  s+='<g class="pt" data-id="'+p.id+'" tabindex="0" role="button" aria-label="'+esc(p.name)+'" opacity="'+(dim?.28:1)+'">';
-  if(sel)s+=(p.day===0?'<rect x="'+(x-15)+'" y="'+(y-15)+'" width="30" height="30" rx="9" fill="none" stroke="#fff" stroke-width="2"/>':'<circle cx="'+x+'" cy="'+y+'" r="15" fill="none" stroke="#fff" stroke-width="2"/>');
-  if(p.day===0)s+='<rect x="'+(x-10)+'" y="'+(y-10)+'" width="20" height="20" rx="5" fill="#fff" stroke="#0a0e1c" stroke-width="1.5"/>';
-  else s+='<circle cx="'+x+'" cy="'+y+'" r="10" style="fill:'+DC[p.day]+'" stroke="#0a0e1c" stroke-width="1.5"/>';
-  s+='<text x="'+x+'" y="'+y+'">'+p.n+'</text></g>';
+  var dim=MF&&p.day!==0&&p.day!==MF,sel=p.id===MSEL;
+  s+='<g class="pt" data-id="'+p.id+'" data-x="'+f1(p.x)+'" data-y="'+f1(p.y)+'" tabindex="0" role="button" aria-label="'+esc(p.n+' '+p.name)+'" opacity="'+(dim?.3:1)+'"><circle r="13" fill="transparent"/>';
+  if(p.day===0){
+   if(sel)s+='<rect x="-10" y="-10" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="1.5"/>';
+   s+='<rect x="-6.5" y="-6.5" width="13" height="13" rx="3.5" fill="#fff" stroke="#0a0e1c" stroke-width="1"/><text y="0.5" style="font-size:8.5px">H</text>';
+  }else{
+   if(sel)s+='<rect x="-14" y="-9.5" width="28" height="19" rx="9.5" fill="none" stroke="#fff" stroke-width="1.5"/>';
+   s+='<rect x="-10.5" y="-6.25" width="21" height="12.5" rx="6.25" style="fill:'+DC[p.day]+'" stroke="#0a0e1c" stroke-width="1"/><text y="0.5">'+p.n+'</text>';
+  }
+  s+='</g>';
  });
  return s+'</svg>';
 }
-function mapLink(p){return p.link||(MAP+encodeURIComponent(p.q))}
+function applyView(){
+ var svg=document.querySelector('#mapbox svg.map');if(!svg)return;
+ var w=MW/V.z,h=MH/V.z;
+ V.cx=Math.min(MW-w/2,Math.max(w/2,V.cx));V.cy=Math.min(MH-h/2,Math.max(h/2,V.cy));
+ svg.setAttribute('viewBox',f1(V.cx-w/2)+' '+f1(V.cy-h/2)+' '+f1(w)+' '+f1(h));
+ var k=Math.round(100/Math.pow(V.z,0.65))/100;
+ svg.querySelectorAll('[data-x]').forEach(function(g){
+  g.setAttribute('transform','translate('+g.getAttribute('data-x')+' '+g.getAttribute('data-y')+') scale('+k+')');
+  if(g.hasAttribute('data-minor'))g.style.display=V.z>=2?'':'none';
+ });
+ svg.style.touchAction=V.z>1.01?'none':'pan-y';
+ var z=document.querySelector('#mapbox .zb[data-z="in"]'),o=document.querySelector('#mapbox .zb[data-z="out"]');
+ if(z)z.disabled=V.z>=ZMAX-0.01;if(o)o.disabled=V.z<=1.01;
+}
+function zoomBy(f,fx,fy){
+ var nz=Math.min(ZMAX,Math.max(1,V.z*f));if(fx==null){fx=V.cx;fy=V.cy}
+ V.cx=fx-(fx-V.cx)*V.z/nz;V.cy=fy-(fy-V.cy)*V.z/nz;V.z=nz;applyView();
+}
 function renderMap(){
  var p=pById(MSEL),h2='';
  h2+='<div class="chips" role="group" aria-label="일차 선택">';
  [[0,'전체'],[1,'1일차'],[2,'2일차'],[3,'3일차'],[4,'4일차']].forEach(function(c){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#fff')+'">'+c[1]+'</button>';
  });
- h2+='</div>'+mapSVG();
- h2+='<p class="sub mapnote">약식 지도예요. 거리와 모양은 대략이고, 스기나미소고 고등학교는 주소 기준 추정 위치입니다.</p>';
- h2+='<div class="callout" style="--c:'+DC[p.day]+'"><span class="meta">'+DL[p.day]+' · '+esc(p.time)+'</span><span class="tt">'+esc(p.name)+'</span><span class="sub">'+esc(p.desc)+'</span><a class="btn" href="'+mapLink(p)+'" target="_blank" rel="noopener">구글 지도에서 열기</a></div>';
+ h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div></div>';
+ h2+='<p class="sub mapnote">번호 1-2는 1일차 두 번째 일정이라는 뜻이에요. 점끼리 이은 점선은 그날의 이동 순서이고, 회색 점선은 야마노테선입니다. 약식 지도라 거리와 모양은 대략이며, 스기나미소고 고등학교는 주소 기준 추정 위치예요. 확대 버튼이나 두 손가락으로 크게 볼 수 있습니다.</p>';
+ h2+='<div class="callout" style="--c:'+DC[p.day]+'"><span class="meta">'+(p.day?p.n+' · ':'')+DL[p.day]+' · '+esc(p.time)+'</span><span class="tt">'+esc(p.name)+'</span><span class="sub">'+esc(p.desc)+'</span><a class="btn" href="'+mapLink(p)+'" target="_blank" rel="noopener">구글 지도에서 열기</a></div>';
  function row(q){return '<li><button type="button" class="pl'+(q.id===MSEL?' on':'')+'" data-id="'+q.id+'" style="--c:'+DC[q.day]+'"><span class="badge">'+q.n+'</span><span class="pb"><b>'+esc(q.name)+'</b><span class="sub">'+esc(q.time)+' · '+esc(q.desc)+'</span></span></button></li>'}
  h2+='<ul class="plist">'+row(pById('h'));
  [1,2,3,4].forEach(function(d){
@@ -283,18 +331,51 @@ function renderMap(){
  });
  h2+='</ul>';
  document.getElementById('mapbox').innerHTML=h2;
+ applyView();
 }
 (function(){
- var sec=document.getElementById('map');
+ var sec=document.getElementById('map'),P={},drag=null,pinch=null,moved=false;
+ function svgEl(){return document.querySelector('#mapbox svg.map')}
  sec.addEventListener('click',function(e){
+  var zb=e.target.closest('.zb');
+  if(zb){var m=zb.getAttribute('data-z');if(m==='in')zoomBy(1.6);else if(m==='out')zoomBy(1/1.6);else{V.z=1;V.cx=MW/2;V.cy=MH/2;applyView()}return}
+  if(moved)return;
   var c=e.target.closest('.chip');
-  if(c){MF=+c.getAttribute('data-f');if(MF&&pById(MSEL).day!==0&&pById(MSEL).day!==MF){MSEL='h'}renderMap();return}
+  if(c){MF=+c.getAttribute('data-f');var cur=pById(MSEL);if(MF&&cur.day!==0&&cur.day!==MF){MSEL='h'}renderMap();return}
   var t=e.target.closest('.pt,.pl');
-  if(t){MSEL=t.getAttribute('data-id');renderMap();if(t.classList.contains('pl')){sec.scrollIntoView({behavior:'smooth',block:'start'})}}
+  if(t){MSEL=t.getAttribute('data-id');var list=t.classList.contains('pl');if(list&&V.z>1){var q=pById(MSEL);V.cx=q.x;V.cy=q.y}renderMap();if(list){sec.scrollIntoView({behavior:'smooth',block:'start'})}}
  });
  sec.addEventListener('keydown',function(e){
   if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('pt')){e.preventDefault();MSEL=e.target.getAttribute('data-id');renderMap()}
  });
+ sec.addEventListener('pointerdown',function(e){
+  if(!e.target.closest('svg.map'))return;
+  P[e.pointerId]={x:e.clientX,y:e.clientY};var ids=Object.keys(P);
+  if(ids.length===1){drag={x:e.clientX,y:e.clientY,cx:V.cx,cy:V.cy};moved=false}
+  else if(ids.length===2){var a=P[ids[0]],b=P[ids[1]];pinch={d:Math.hypot(a.x-b.x,a.y-b.y)||1,z:V.z};drag=null;moved=true}
+ });
+ sec.addEventListener('pointermove',function(e){
+  if(!P[e.pointerId])return;P[e.pointerId]={x:e.clientX,y:e.clientY};
+  var sv=svgEl(),ids=Object.keys(P);if(!sv)return;
+  if(ids.length>=2&&pinch){var a=P[ids[0]],b=P[ids[1]],nz=Math.min(ZMAX,Math.max(1,pinch.z*Math.hypot(a.x-b.x,a.y-b.y)/pinch.d));if(Math.abs(nz-V.z)>0.01)zoomBy(nz/V.z);return}
+  if(drag&&V.z>1.01){
+   var dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+   if(!moved&&Math.hypot(dx,dy)<5)return;
+   moved=true;if(!sv.hasPointerCapture(e.pointerId))sv.setPointerCapture(e.pointerId);
+   var u=(MW/V.z)/sv.getBoundingClientRect().width;V.cx=drag.cx-dx*u;V.cy=drag.cy-dy*u;applyView();
+  }
+ });
+ function endP(e){
+  delete P[e.pointerId];var ids=Object.keys(P);
+  if(!ids.length){drag=null;pinch=null;setTimeout(function(){moved=false},0)}
+  else if(ids.length===1){drag={x:P[ids[0]].x,y:P[ids[0]].y,cx:V.cx,cy:V.cy};pinch=null;moved=true}
+ }
+ sec.addEventListener('pointerup',endP);sec.addEventListener('pointercancel',endP);
+ sec.addEventListener('wheel',function(e){
+  var sv=e.target.closest&&e.target.closest('svg.map');if(!sv||!(e.ctrlKey||e.metaKey))return;
+  e.preventDefault();var r=sv.getBoundingClientRect(),w=MW/V.z,h=MH/V.z;
+  zoomBy(e.deltaY<0?1.2:1/1.2,V.cx-w/2+(e.clientX-r.left)/r.width*w,V.cy-h/2+(e.clientY-r.top)/r.height*h);
+ },{passive:false});
  renderMap();
 })();
 </script>
