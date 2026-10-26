@@ -287,7 +287,8 @@ function routesSVG(){
   for(var i=0;i<ids.length-1;i++){
    var A=pById(ids[i]),B=pById(ids[i+1]),dx=B.x-A.x,dy=B.y-A.y;
    if(Math.hypot(dx,dy)<44)continue;
-   s+=arrowSVG(A.x+dx*.33,A.y+dy*.33,A.x+dx*.67,A.y+dy*.67,d,dim);
+   var u0=.33,u1=.67;if(B.id==='c1'){u0=.55;u1=.85}else if(A.id==='c1'){u0=.15;u1=.45}
+   s+=arrowSVG(A.x+dx*u0,A.y+dy*u0,A.x+dx*u1,A.y+dy*u1,d,dim);
   }
  });
  var n=pById('d1');
