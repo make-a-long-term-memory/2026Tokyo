@@ -275,9 +275,29 @@ function bldg(body,win){
   +'<rect x="-3.3" y="-1.5" width="2" height="2" fill="'+win+'"/><rect x="1.3" y="-1.5" width="2" height="2" fill="'+win+'"/>'
   +'<rect x="-1.5" y="3.5" width="3" height="4.5" fill="'+win+'"/>';
 }
+var ROUTES={1:['a1','a2','h'],2:['h','b1','b2','b3','h'],3:['h','c1','c2'],4:['h','d1']};
+function arrowSVG(x0,y0,x1,y1,d,dim){
+ var ang=Math.atan2(y1-y0,x1-x0)*180/Math.PI;
+ return '<g opacity="'+(dim?.15:.95)+'" style="stroke:'+DC[d]+';fill:'+DC[d]+'"><line x1="'+f1(x0)+'" y1="'+f1(y0)+'" x2="'+f1(x1)+'" y2="'+f1(y1)+'" stroke-width="2.6" stroke-dasharray="0.1 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/><g class="ar" data-x="'+f1(x1)+'" data-y="'+f1(y1)+'"><g transform="rotate('+f1(ang)+')"><path d="M-7,-4.5L1,0L-7,4.5z" stroke="none"/></g></g></g>';
+}
+function routesSVG(){
+ var s='';
+ [1,2,3,4].forEach(function(d){
+  var ids=ROUTES[d],dim=MF&&MF!==d;
+  for(var i=0;i<ids.length-1;i++){
+   var A=pById(ids[i]),B=pById(ids[i+1]),dx=B.x-A.x,dy=B.y-A.y;
+   if(Math.hypot(dx,dy)<44)continue;
+   s+=arrowSVG(A.x+dx*.25,A.y+dy*.25,A.x+dx*.75,A.y+dy*.75,d,dim);
+  }
+ });
+ var n=pById('d1');
+ s+=arrowSVG(n.x+13,n.y-5,n.x+33,n.y-16,4,MF&&MF!==4);
+ return s;
+}
 function mapSVG(){
  var s='<svg class="map" viewBox="0 0 '+MW+' '+MH+'" role="img" aria-label="도쿄 주요 장소 약식 지도">';
  s+='<rect width="'+MW+'" height="'+MH+'" fill="#1b2548"/><image class="bg" href="'+BGURI+'" x="'+OX+'" y="'+OY+'" width="'+MWI+'" height="'+f1(IH*KY)+'" preserveAspectRatio="none"/>';
+ s+=routesSVG();
  s+='<text x="'+(MW-4)+'" y="40" font-size="9.5" font-weight="700" text-anchor="end" opacity="'+(MF&&MF!==4?.25:1)+'" style="fill:'+DC[4]+'">나리타 공항 → <tspan font-size="8" font-weight="400">(동쪽 약 60km)</tspan></text>';
  LBL.forEach(function(t){
   s+='<g class="lb'+(t[7]?' bold':'')+(t[9]?' '+t[9]:'')+'" data-x="'+f1(mx(t[2]))+'" data-y="'+f1(my(t[1]))+'"'+(t[6]?' data-minor="1"':'')+'>';
@@ -329,7 +349,7 @@ function renderMap(){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#fff')+'">'+c[1]+'</button>';
  });
  h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
- h2+='<p class="sub mapnote">번호 1-2는 1일차 두 번째 일정이에요. 흰 건물 모양은 숙소, 노란 글씨는 근처의 유명 명소, 런치·디너 표시는 식사 장소입니다. 배경은 Google 지도 화면을 희미하게 깐 것이고, 점 위치는 대략입니다(스기나미소고 고등학교는 주소 기준 추정). 확대 버튼이나 두 손가락으로 크게 볼 수 있습니다.</p>';
+ h2+='<p class="sub mapnote">번호 1-2는 1일차 두 번째 일정이고, 점선 화살표는 이동 방향이에요. 흰 건물 모양은 숙소, 노란 글씨는 근처의 유명 명소, 런치·디너 표시는 식사 장소입니다. 배경은 Google 지도 화면을 희미하게 깐 것이고, 점 위치는 대략입니다(스기나미소고 고등학교는 주소 기준 추정). 확대 버튼이나 두 손가락으로 크게 볼 수 있습니다.</p>';
  h2+='<div class="callout" style="--c:'+DC[p.day]+'"><span class="meta">'+(p.day?p.n+' · ':'')+DL[p.day]+' · '+esc(p.time)+'</span><span class="tt">'+esc(p.name)+'</span><span class="sub">'+esc(p.desc)+'</span>'+(MEAL[p.id]?'<span class="sub meal">식사: '+esc(MEAL[p.id])+'</span>':'')+'<a class="btn" href="'+mapLink(p)+'" target="_blank" rel="noopener">구글 지도에서 열기</a></div>';
  function row(q){
   var b=q.day===0?'<svg viewBox="-7 -9 14 18" width="12" height="15" aria-hidden="true" style="vertical-align:middle">'+bldg('#0a0e1c','#fff')+'</svg>':q.n;
