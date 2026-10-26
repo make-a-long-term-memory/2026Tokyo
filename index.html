@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}</style>
+<title>미림 도쿄 일정</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: 모바일 세로 한 줄. 도쿄 지하철 노선도처럼 날짜마다 노선 색, 시간마다 정거장 점. */
+:root{
+  --bg:#f4f6fa; --card:#ffffff; --fg:#141a36; --muted:#5b6482; --line:#d9deea;
+  --ink:#141a36; --on-ink:#f4f6fa;
+  --d1:#2f8a57; --d2:#2f6fd0; --d3:#e0701b; --d4:#8a4fc4;
+  --warn-bg:#fff3d6; --warn-fg:#6a4a00;
+  --f-body:'Noto Sans KR',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1426; --card:#171e38; --fg:#e8ecf8; --muted:#9aa4c6; --line:#2b3558;
+  --ink:#0a0e1c; --on-ink:#e8ecf8;
+  --d1:#52c283; --d2:#6aa2ff; --d3:#ff9a4d; --d4:#b98cf0;
+  --warn-bg:#3a2f12; --warn-fg:#f2d48a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1426; --card:#171e38; --fg:#e8ecf8; --muted:#9aa4c6; --line:#2b3558;
+  --ink:#0a0e1c; --on-ink:#e8ecf8;
+  --d1:#52c283; --d2:#6aa2ff; --d3:#ff9a4d; --d4:#b98cf0;
+  --warn-bg:#3a2f12; --warn-fg:#f2d48a; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px;word-break:keep-all;overflow-wrap:anywhere}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+a{color:inherit}
+h1,h2,h3,p{margin:0}
+
+.top{background:var(--ink);color:var(--on-ink);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:28px max(16px,env(safe-area-inset-left,0px)) 24px}
+.top-in{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;opacity:.75}
+h1{font-size:23px;line-height:1.3;font-weight:900;text-wrap:balance}
+.range{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.range b{font:600 28px/1 var(--f-mono)}
+.range span{opacity:.8;font-size:14px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-size:12px;padding:4px 10px;border-radius:99px;border:1px solid color-mix(in srgb,var(--on-ink) 35%,transparent)}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:8px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+nav ul{list-style:none;margin:0 auto;padding:0;max-width:560px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav li{flex:1 0 auto}
+nav a{display:block;text-align:center;text-decoration:none;font-size:13px;font-weight:700;padding:7px 12px;border-radius:8px;background:var(--card);border:1px solid var(--line);white-space:nowrap}
+nav a i{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--c,var(--muted))}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.card h2{font-size:16px;font-weight:700}
+.label{font:600 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.big{font-size:18px;font-weight:700;line-height:1.4}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:10px;background:var(--ink);color:var(--on-ink);font-weight:700;font-size:14px;text-decoration:none}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--d2);outline-offset:2px}
+.warn{background:var(--warn-bg);color:var(--warn-fg);border-radius:8px;padding:10px 12px;font-size:13px}
+.checks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.checks li{padding-left:22px;position:relative}
+.checks li::before{content:"";position:absolute;left:0;top:.45em;width:12px;height:12px;border:2px solid var(--muted);border-radius:3px}
+
+.day{--c:var(--d1);display:flex;flex-direction:column;gap:14px;scroll-margin-top:64px}
+.day-h{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:var(--c);color:#fff}
+:root[data-theme="dark"] .day-h{color:#0b1020}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .day-h{color:#0b1020}}
+.day-h .dn{font:600 30px/1 var(--f-mono)}
+.day-h .dt{display:flex;flex-direction:column;min-width:0}
+.day-h .dt b{font-size:17px;line-height:1.3}
+.day-h .dt span{font-size:12.5px;opacity:.9}
+.route{margin-left:auto;font:600 12px/1 var(--f-mono);padding:5px 8px;border-radius:6px;background:rgba(0,0,0,.22);white-space:nowrap}
+
+.line{list-style:none;margin:0;padding:0 0 0 0;position:relative;display:flex;flex-direction:column}
+.line::before{content:"";position:absolute;left:61px;top:10px;bottom:10px;width:4px;border-radius:2px;background:var(--c)}
+.stop{display:grid;grid-template-columns:52px 20px 1fr;column-gap:6px;padding:7px 0;align-items:start}
+.time{font:500 13px/1.7 var(--f-mono);color:var(--muted);text-align:right}
+.dot{position:relative;z-index:1;width:16px;height:16px;margin:5px 0 0 2px;border-radius:50%;background:var(--bg);border:4px solid var(--c)}
+.stop.key .dot{background:var(--c)}
+.body{min-width:0;display:flex;flex-direction:column;gap:3px}
+.body b{font-weight:700;font-weight:500}
+.stop.key .body .t{font-weight:700}
+.sub{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--fg);margin-right:6px;vertical-align:1px}
+.maps{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.maps a{font-size:12.5px;font-weight:500;text-decoration:none;padding:3px 10px;border-radius:99px;border:1px solid var(--c);color:var(--fg)}
+.maps a::before{content:"📍 ";font-size:11px}
+
+.foot{display:grid;grid-template-columns:1fr;gap:8px;font-size:13.5px;border-top:1px dashed var(--line);padding-top:12px}
+.foot div{display:grid;grid-template-columns:44px 1fr;gap:8px}
+.foot dt{color:var(--muted);font-weight:700}
+
+.tel{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.tel:first-of-type{border-top:0}
+.tel small{display:block;color:var(--muted);font-size:12px}
+.tel a{font:600 15px var(--f-mono);text-decoration:none;white-space:nowrap}
+.copy{font:inherit;font-size:12px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:8px;padding:6px 10px;min-height:36px}
+small.end{color:var(--muted);text-align:center;font-size:12px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+
+<header class="top"><div class="top-in">
+  <div class="eyebrow">DREAM UP · 2026 · TOKYO</div>
+  <h1>2026 미림 Dream up<br>글로벌 리더십 프로그램</h1>
+  <div class="range"><b>11.3 → 11.6</b><span>화 ~ 금 · 3박 4일 · 일본 동경</span></div>
+  <div class="pills"><span class="pill">인천 ↔ 나리타 (OZ102 / OZ101)</span><span class="pill">전용버스 이동</span></div>
+</div></header>
+
+<nav aria-label="일정 바로가기"><ul id="nav"></ul></nav>
+
+<main class="wrap" id="app"></main>
+
+<script>
+var MAP='https://www.google.com/maps/search/?api=1&query=';
+var HOTEL_LINK='https://maps.app.goo.gl/BenwKEdtjcXNvyv5A';
+var days=[
+{id:'d1',c:'var(--d1)',n:'1',date:'11.3',dow:'화',title:'인천 → 도쿄 시내',route:'OZ102',
+ meals:[['조','—'],['중','현지식 (햄버거 콤보)'],['석','자유식 · 2,000엔 지급']],
+ stay:'선샤인 시티 프린스 호텔 (2인 1실) 또는 동급',
+ items:[
+ ['06:00','인천공항 제2터미널 3층 N카운터 집결','롯데관광 테이블 (N 31·32번 카운터)',[],1,'안내문 기준 06:00 (일정표에는 06:30 표기)'],
+ ['09:00','인천 국제공항 출발','OZ102',[],1],
+ ['11:20','나리타 국제공항 도착, 입국 수속','입국 수속 후 인원 확인, 버스 탑승. 나리타 공항에서 햄버거 세트 수령',[],0],
+ ['12:30','도쿄 시내로 이동','약 1시간 30분 소요',[],0],
+ ['14:00','우에노 공원 산책','중식: 현지식 (햄버거 콤보)',[['우에노 공원','上野公園']],1],
+ ['14:30','국립과학박물관 · 국립서양미술관 견학','',[['국립과학박물관','国立科学博物館'],['국립서양미술관','国立西洋美術館']],0],
+ ['16:30','도쿄 타워 견학','',[['도쿄 타워','東京タワー']],1],
+ ['17:30','호텔 이동','',[],0],
+ ['18:00','호텔 체크인','',[['선샤인 시티 프린스 호텔',HOTEL_LINK,1]],1],
+ ['19:00','선샤인 시티 자유일정','조별 일본문화 체험',[['선샤인 시티','サンシャインシティ']],0],
+ ['21:00','자유석식 후 호텔 복귀','',[],0],
+ ['22:00','점호 후 휴식','',[],0]]},
+{id:'d2',c:'var(--d2)',n:'2',date:'11.4',dow:'수',title:'기업 · 학교 방문',route:'전용버스',
+ meals:[['조','호텔식'],['중','도시락 (학교 제공)'],['석','자유식 · 2,000엔']],
+ stay:'상동 (선샤인 시티 프린스 호텔)',
+ items:[
+ ['08:20~','호텔 조식 후 호텔에서 출발','',[],0],
+ ['09:00','GHI 기업 방문','',[],1,'','소프트웨어계열'],
+ ['09:00','신주쿠 교엔 견학','',[['신주쿠 교엔','新宿御苑']],1,'','디자인계열'],
+ ['10:00','학교로 이동','',[],0],
+ ['11:00','도쿄도립 스기나미소고 고등학교 방문','공식일정 · 중식: 도시락 (학교 제공)',[['스기나미소고 고등학교','東京都立杉並総合高等学校']],1],
+ ['16:00','시부야로 이동','',[],0],
+ ['17:00','시부야 미야시타 공원 자유일정','4인 1조 조별 일본문화 체험',[['미야시타 공원','渋谷 MIYASHITA PARK']],1],
+ ['19:30','자유석식 후 호텔 이동','',[],0],
+ ['20:00','숙소에서 사제와의 시간','',[],0],
+ ['22:00','점호 후 휴식','',[],0]]},
+{id:'d3',c:'var(--d3)',n:'3',date:'11.5',dow:'목',title:'도쿄 디즈니씨 · 이케부쿠로',route:'전용버스',
+ meals:[['조','호텔식'],['중','자유식 · 2,000엔'],['석','현지식 (야키니쿠)']],
+ stay:'상동 (선샤인 시티 프린스 호텔)',
+ items:[
+ ['조식 후','호텔 조식 후 우라야스로 이동','',[],0],
+ ['09:30','도쿄 디즈니씨 1일 자유일정','',[['도쿄 디즈니씨','東京ディズニーシー']],1],
+ ['17:30','석식: 야키니쿠','',[],1],
+ ['—','호텔 복귀','',[],0],
+ ['20:00','이케부쿠로 자유일정','조별 일본문화 체험 · 교사, 가이드 동행하에 진행',[['선샤인시티 로프트 (숙소 옆)','サンシャインシティ アルパ ロフト'],['Loft (규모 큼)','池袋ロフト'],['돈키호테 히가시구치','ドン・キホーテ 池袋東口駅前店'],['애니메이트 본점','アニメイト池袋本店']],1],
+ ['—','호텔 복귀 후 점호 및 휴식','',[],0]]},
+{id:'d4',c:'var(--d4)',n:'4',date:'11.6',dow:'금',title:'센소지 → 귀국',route:'OZ101',
+ meals:[['조','호텔식'],['중','—'],['석','—']],
+ stay:'',
+ items:[
+ ['조식 후','호텔 조식','',[],0],
+ ['09:00','센소지 견학','10시 나리타 국제공항으로 이동',[['센소지','浅草寺']],1],
+ ['11:30','나리타 국제공항 도착 및 출국수속','',[['나리타 국제공항','成田国際空港']],0],
+ ['13:20','나리타 국제공항 출발','OZ101',[],1],
+ ['15:55','인천 국제공항 도착 후 해산','',[],1]]}
+];
+function esc(s){return String(s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})}
+function mapLink(m){var href=m[2]?m[1]:MAP+encodeURIComponent(m[1]);return '<a href="'+href+'" target="_blank" rel="noopener">'+esc(m[0])+'</a>'}
+var h='';
+h+='<section class="card" id="meet"><span class="label">출발 집결 · 11.3 (화)</span>'+
+ '<p class="big">오전 6:00<br>인천공항 제2터미널 3층 N카운터</p>'+
+ '<p class="sub">창측 롯데관광 테이블 · N 31, 32번 카운터</p>'+
+ '<div class="warn">일정표에는 집결이 06:30, 안내문에는 06:00으로 되어 있습니다. 06:00 기준으로 움직이세요.</div>'+
+ '<ul class="checks"><li>출발 당일 유효한 <b>여권</b> (유효기간 6개월 이상, 훼손 없는지 확인)</li><li>분실에 대비한 여권 사본, 여권용 사진 2~3장 별도 준비</li><li>자택 주변 은행에서 엔화로 환전</li></ul></section>';
+h+='<section class="card" id="hotel"><span class="label">숙소 · 3박</span>'+
+ '<h2>선샤인 시티 프린스 호텔 이케부쿠로<br><span class="sub">SUNSHINE CITY PRINCE HOTEL ⋆⋆⋆</span></h2>'+
+ '<dl class="kv"><dt>주소</dt><dd>3 Chome-1-5 Higashiikebukuro, Toshima City, Tokyo 170-8440</dd><dt>전화</dt><dd>+81 3-3988-1111</dd></dl>'+
+ '<a class="btn" href="'+HOTEL_LINK+'" target="_blank" rel="noopener">구글 지도에서 열기</a></section>';
+days.forEach(function(d){
+ h+='<section class="day" id="'+d.id+'" style="--c:'+d.c+'">'+
+ '<div class="day-h"><span class="dn">'+d.date+'</span><div class="dt"><b>'+esc(d.title)+'</b><span>'+d.n+'일차 · '+d.dow+'요일</span></div><span class="route">'+esc(d.route)+'</span></div>'+
+ '<div class="card"><ol class="line">';
+ d.items.forEach(function(it){
+  var maps=it[3].length?'<div class="maps">'+it[3].map(mapLink).join('')+'</div>':'';
+  h+='<li class="stop'+(it[4]?' key':'')+'"><span class="time">'+esc(it[0])+'</span><span class="dot"></span><div class="body">'+
+   '<span class="t">'+(it[6]?'<span class="tag">'+esc(it[6])+'</span>':'')+esc(it[1])+'</span>'+
+   (it[2]?'<span class="sub">'+esc(it[2])+'</span>':'')+(it[5]?'<span class="sub">'+esc(it[5])+'</span>':'')+maps+'</div></li>';
+ });
+ h+='</ol><dl class="foot">'+
+  '<div><dt>식사</dt><dd>'+d.meals.map(function(m){return m[0]+' '+esc(m[1])}).join(' · ')+'</dd></div>'+
+  (d.stay?'<div><dt>숙박</dt><dd>'+esc(d.stay)+'</dd></div>':'')+'</dl></div></section>';
+});
+h+='<small class="end">시간과 장소는 현지 사정에 따라 바뀔 수 있습니다. 위치 버튼은 구글 지도 검색으로 연결됩니다.</small>';
+document.getElementById('app').innerHTML=h;
+document.getElementById('nav').innerHTML=days.map(function(d){return '<li><a href="#'+d.id+'" style="--c:'+d.c+'"><i></i>'+d.date+' '+d.dow+'</a></li>'}).join('')+'<li><a href="#hotel">숙소</a></li>';
+</script>
+
+</body>
+</html>
