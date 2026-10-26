@@ -278,7 +278,7 @@ function bldg(body,win){
 var ROUTES={1:['a1','a2','h'],2:['h','b1','b2','b3','h'],3:['h','c1','c2'],4:['h','d1']};
 function arrowSVG(x0,y0,x1,y1,d,dim){
  var ang=Math.atan2(y1-y0,x1-x0)*180/Math.PI;
- return '<g opacity="'+(dim?.15:.95)+'" style="stroke:'+DC[d]+';fill:'+DC[d]+'"><line x1="'+f1(x0)+'" y1="'+f1(y0)+'" x2="'+f1(x1)+'" y2="'+f1(y1)+'" stroke-width="2.6" stroke-dasharray="0.1 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/><g class="ar" data-x="'+f1(x1)+'" data-y="'+f1(y1)+'"><g transform="rotate('+f1(ang)+')"><path d="M-5,-4.5L1,0L-5,4.5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></g></g>';
+ return '<g opacity="'+(dim?.15:.95)+'" style="stroke:'+DC[d]+';fill:'+DC[d]+'"><line x1="'+f1(x0)+'" y1="'+f1(y0)+'" x2="'+f1(x1)+'" y2="'+f1(y1)+'" stroke-width="2.6" stroke-dasharray="0.1 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/><g class="ar" data-x="'+f1(x1)+'" data-y="'+f1(y1)+'"><g transform="rotate('+f1(ang)+')"><path d="M-3.6,-3.2L0.8,0L-3.6,3.2" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g></g>';
 }
 function routesSVG(){
  var s='';
