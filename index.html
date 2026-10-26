@@ -278,7 +278,7 @@ function bldg(body,win){
 var ROUTES={1:['a1','a2','h'],2:['h','b1','b2','b3','h'],3:['h','c1','c2'],4:['h','d1']};
 function arrowSVG(x0,y0,x1,y1,d,dim){
  var ang=Math.atan2(y1-y0,x1-x0)*180/Math.PI;
- return '<g opacity="'+(dim?.15:.95)+'" style="stroke:'+DC[d]+';fill:'+DC[d]+'"><line x1="'+f1(x0)+'" y1="'+f1(y0)+'" x2="'+f1(x1)+'" y2="'+f1(y1)+'" stroke-width="2.6" stroke-dasharray="0.1 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/><g class="ar" data-x="'+f1(x1)+'" data-y="'+f1(y1)+'"><g transform="rotate('+f1(ang)+')"><path d="M-7,-4.5L1,0L-7,4.5z" stroke="none"/></g></g></g>';
+ return '<g opacity="'+(dim?.15:.95)+'" style="stroke:'+DC[d]+';fill:'+DC[d]+'"><line x1="'+f1(x0)+'" y1="'+f1(y0)+'" x2="'+f1(x1)+'" y2="'+f1(y1)+'" stroke-width="2.6" stroke-dasharray="0.1 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/><g class="ar" data-x="'+f1(x1)+'" data-y="'+f1(y1)+'"><g transform="rotate('+f1(ang)+')"><path d="M-5,-4.5L1,0L-5,4.5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></g></g>';
 }
 function routesSVG(){
  var s='';
@@ -287,11 +287,11 @@ function routesSVG(){
   for(var i=0;i<ids.length-1;i++){
    var A=pById(ids[i]),B=pById(ids[i+1]),dx=B.x-A.x,dy=B.y-A.y;
    if(Math.hypot(dx,dy)<44)continue;
-   s+=arrowSVG(A.x+dx*.25,A.y+dy*.25,A.x+dx*.75,A.y+dy*.75,d,dim);
+   s+=arrowSVG(A.x+dx*.33,A.y+dy*.33,A.x+dx*.67,A.y+dy*.67,d,dim);
   }
  });
  var n=pById('d1');
- s+=arrowSVG(n.x+13,n.y-5,n.x+33,n.y-16,4,MF&&MF!==4);
+ s+=arrowSVG(n.x+16,n.y-6,n.x+32,n.y-15,4,MF&&MF!==4);
  return s;
 }
 function mapSVG(){
@@ -319,7 +319,7 @@ function mapSVG(){
    s+='<rect x="-10.5" y="-6.25" width="21" height="12.5" rx="6.25" style="fill:'+DC[p.day]+'" stroke="#0a0e1c" stroke-width="1"/><text y="0.5">'+p.n+'</text>';
    if(p.nm){var nl=p.nm[0].split('|');nl.forEach(function(t,i){var yy=p.nm[2]<0?p.nm[2]-(nl.length-1-i)*9.5:p.nm[2]+i*9.5;s+='<text class="nm" x="'+p.nm[1]+'" y="'+yy+'" style="text-anchor:'+p.nm[3]+'">'+t+'</text>'})}
   }
-  if(TAG[p.id]){var tg=TGO[p.id],tw=TAG[p.id].length>2?33:17;s+='<rect x="'+tg[0]+'" y="'+tg[1]+'" width="'+tw+'" height="9.5" rx="4.75" fill="#ffe1a0" stroke="#0a0e1c" stroke-width=".8"/><text class="tgt" x="'+(tg[0]+tw/2)+'" y="'+(tg[1]+5.1)+'">'+TAG[p.id]+'</text>'}
+  if(TAG[p.id]){var tg=TGO[p.id],tw=TAG[p.id].length>2?33:17;s+='<rect x="'+tg[0]+'" y="'+tg[1]+'" width="'+tw+'" height="9.5" rx="4.75" style="fill:'+DC[p.day]+'" stroke="#0a0e1c" stroke-width=".8"/><text class="tgt" x="'+(tg[0]+tw/2)+'" y="'+(tg[1]+5.1)+'">'+TAG[p.id]+'</text>'}
   s+='</g>';
  });
  return s+'</svg>';
