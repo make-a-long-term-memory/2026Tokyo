@@ -286,7 +286,7 @@ function routesSVG(){
   var ids=ROUTES[d],dim=MF&&MF!==d;
   for(var i=0;i<ids.length-1;i++){
    var A=pById(ids[i]),B=pById(ids[i+1]),dx=B.x-A.x,dy=B.y-A.y;
-   if(Math.hypot(dx,dy)<44)continue;
+   if(Math.hypot(dx,dy)<44||A.id==='b1')continue;
    var u0=.33,u1=.67;if(B.id==='c1'){u0=.45;u1=.75}else if(A.id==='c1'){u0=.4;u1=.7}
    s+=arrowSVG(A.x+dx*u0,A.y+dy*u0,A.x+dx*u1,A.y+dy*u1,d,dim);
   }
