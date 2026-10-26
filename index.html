@@ -106,6 +106,7 @@ svg.map .lb{pointer-events:none}
 svg.map .lb text{font:600 8.5px var(--f-body);fill:#cfd6ee;paint-order:stroke;stroke:#1b2548;stroke-width:2.4px;stroke-linejoin:round}
 svg.map .lb.bold text{font-weight:800;fill:#fff}
 svg.map .lb.lm text{fill:#ffe1a0}
+.sub.meal{color:#ffd9a0}
 svg.map .pt text.nm{font:700 8.5px var(--f-body);fill:#fff;paint-order:stroke;stroke:#1b2548;stroke-width:2.6px;stroke-linejoin:round;dominant-baseline:auto}
 .zoomctl{position:absolute;left:8px;bottom:8px;display:flex;gap:6px}
 .zb{min-width:32px;height:32px;padding:0 6px;border-radius:8px;border:1px solid rgba(255,255,255,.35);background:rgba(10,14,28,.8);color:#fff;font:700 16px/1 var(--f-body);cursor:pointer}
@@ -233,7 +234,7 @@ var DL={0:'숙소',1:'1일차 · 11/3 (화)',2:'2일차 · 11/4 (수)',3:'3일�
 /* nm: 지도에 표시할 이름 [글자, dx, dy, 정렬] */
 var PTS=[
  {id:'h',day:0,n:'',name:'선샤인 시티 프린스 호텔',time:'3박',desc:'이케부쿠로 선샤인 시티 옆 숙소. 11/3 18:00 체크인 후 선샤인 시티 자유일정.',lat:35.7292,lng:139.7195,dx:7,dy:4,link:HOTEL_LINK},
- {id:'a1',day:1,n:'1-1',name:'우에노 공원 · 박물관',time:'14:00',desc:'공원 산책 후 국립과학박물관, 국립서양미술관 견학.',lat:35.7155,lng:139.7752,dx:-3,nm:['우에노 공원',-14,3,'end'],q:'上野公園'},
+ {id:'a1',day:1,n:'1-1',name:'우에노 공원 · 박물관',time:'14:00',desc:'공원 산책 후 국립과학박물관, 국립서양미술관 견학.',lat:35.7155,lng:139.7752,dx:-3,nm:['우에노 공원',0,-14,'middle'],q:'上野公園'},
  {id:'a2',day:1,n:'1-2',name:'도쿄 타워',time:'16:30',desc:'도쿄 타워 견학 후 호텔로 이동.',lat:35.6586,lng:139.7454,nm:['도쿄 타워',0,17,'middle'],q:'東京タワー'},
  {id:'b1',day:2,n:'2-1',name:'신주쿠 교엔',time:'09:00',desc:'디자인계열 견학. 소프트웨어계열은 같은 시간에 GHI 기업을 방문합니다.',lat:35.6852,lng:139.7100,dx:6,dy:4,nm:['신주쿠 교엔',-9,17,'start'],q:'新宿御苑'},
  {id:'b2',day:2,n:'2-2',name:'스기나미소고 고등학교',time:'11:00',desc:'도쿄도립 스기나미소고 고등학교 공식 방문. 점심은 학교 제공 도시락.',lat:35.6838,lng:139.6240,nm:['스기나미소고',-20,-12,'start'],q:'東京都立杉並総合高等学校'},
@@ -260,6 +261,7 @@ var LBL=[
  ['레인보우 브리지',35.6364,139.7630,-6,3,'end',1,0,1,'lm'],
  ['오다이바',35.6290,139.7750,5,3,'start',0,0,1,'lm']
 ];
+var MEAL={h:'조식 · 호텔식 (2~4일차). 1일차 석식은 선샤인 시티 일대 자유식',a1:'중식 · 현지식 (햄버거 콤보)',b2:'중식 · 도시락 (학교 제공)',b3:'석식 · 자유식 (엔화 2,000엔)',c1:'중식 · 자유식 (엔화 2,000엔). 석식은 야키니쿠 (식당은 미정)'};
 var MSEL='h',MF=0,V={z:1,cx:MW/2,cy:MH/2},ZMAX=5;
 PTS.forEach(function(p){p.x=mx(p.lng)+(p.dx||0);p.y=my(p.lat)+(p.dy||0)});
 function pById(id){for(var i=0;i<PTS.length;i++){if(PTS[i].id===id)return PTS[i]}}
@@ -271,6 +273,7 @@ function bldg(body,win){
   +'<rect x="-3.3" y="-1.5" width="2" height="2" fill="'+win+'"/><rect x="1.3" y="-1.5" width="2" height="2" fill="'+win+'"/>'
   +'<rect x="-1.5" y="3.5" width="3" height="4.5" fill="'+win+'"/>';
 }
+function fork(x,y){return '<g transform="translate('+x+' '+y+')"><circle r="4.8" fill="#fff" stroke="#0a0e1c" stroke-width="1"/><path d="M-1.5,-3V-0.5q0,1.5 1.5,1.5q1.5,0 1.5,-1.5V-3M0,-3V3.2" fill="none" stroke="#0a0e1c" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/></g>'}
 function mapSVG(){
  var s='<svg class="map" viewBox="0 0 '+MW+' '+MH+'" role="img" aria-label="도쿄 주요 장소 약식 지도">';
  s+='<rect width="'+MW+'" height="'+MH+'" fill="#1b2548"/>';
@@ -297,6 +300,7 @@ function mapSVG(){
    s+='<rect x="-10.5" y="-6.25" width="21" height="12.5" rx="6.25" style="fill:'+DC[p.day]+'" stroke="#0a0e1c" stroke-width="1"/><text y="0.5">'+p.n+'</text>';
    if(p.nm)s+='<text class="nm" x="'+p.nm[1]+'" y="'+p.nm[2]+'" style="text-anchor:'+p.nm[3]+'">'+p.nm[0]+'</text>';
   }
+  if(MEAL[p.id])s+=fork(p.day===0?9:11,p.day===0?-9.5:-7.5);
   s+='</g>';
  });
  return s+'</svg>';
@@ -326,11 +330,11 @@ function renderMap(){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#fff')+'">'+c[1]+'</button>';
  });
  h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div></div>';
- h2+='<p class="sub mapnote">번호 1-2는 1일차 두 번째 일정이에요. 흰 건물 모양은 숙소, 노란 글씨는 근처의 유명 명소입니다. 약식 지도라 거리와 모양은 대략이며, 스기나미소고 고등학교는 주소 기준 추정 위치예요. 확대 버튼이나 두 손가락으로 크게 볼 수 있습니다.</p>';
- h2+='<div class="callout" style="--c:'+DC[p.day]+'"><span class="meta">'+(p.day?p.n+' · ':'')+DL[p.day]+' · '+esc(p.time)+'</span><span class="tt">'+esc(p.name)+'</span><span class="sub">'+esc(p.desc)+'</span><a class="btn" href="'+mapLink(p)+'" target="_blank" rel="noopener">구글 지도에서 열기</a></div>';
+ h2+='<p class="sub mapnote">번호 1-2는 1일차 두 번째 일정이에요. 흰 건물 모양은 숙소, 노란 글씨는 근처의 유명 명소, 포크 모양은 식사 장소입니다. 약식 지도라 거리와 모양은 대략이며, 스기나미소고 고등학교는 주소 기준 추정 위치예요. 확대 버튼이나 두 손가락으로 크게 볼 수 있습니다.</p>';
+ h2+='<div class="callout" style="--c:'+DC[p.day]+'"><span class="meta">'+(p.day?p.n+' · ':'')+DL[p.day]+' · '+esc(p.time)+'</span><span class="tt">'+esc(p.name)+'</span><span class="sub">'+esc(p.desc)+'</span>'+(MEAL[p.id]?'<span class="sub meal">식사: '+esc(MEAL[p.id])+'</span>':'')+'<a class="btn" href="'+mapLink(p)+'" target="_blank" rel="noopener">구글 지도에서 열기</a></div>';
  function row(q){
   var b=q.day===0?'<svg viewBox="-7 -9 14 18" width="12" height="15" aria-hidden="true" style="vertical-align:middle">'+bldg('#0a0e1c','#fff')+'</svg>':q.n;
-  return '<li><button type="button" class="pl'+(q.id===MSEL?' on':'')+'" data-id="'+q.id+'" style="--c:'+DC[q.day]+'"><span class="badge">'+b+'</span><span class="pb"><b>'+esc(q.name)+'</b><span class="sub">'+esc(q.time)+' · '+esc(q.desc)+'</span></span></button></li>';
+  return '<li><button type="button" class="pl'+(q.id===MSEL?' on':'')+'" data-id="'+q.id+'" style="--c:'+DC[q.day]+'"><span class="badge">'+b+'</span><span class="pb"><b>'+esc(q.name)+'</b><span class="sub">'+esc(q.time)+' · '+esc(q.desc)+'</span>'+(MEAL[q.id]?'<span class="sub meal">식사: '+esc(MEAL[q.id])+'</span>':'')+'</span></button></li>';
  }
  h2+='<ul class="plist">'+row(pById('h'));
  [1,2,3,4].forEach(function(d){
