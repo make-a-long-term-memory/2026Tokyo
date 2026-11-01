@@ -105,7 +105,7 @@ nav a.day{color:var(--c);padding:7px 9px}
 .tel a{font:600 15px var(--f-mono);text-decoration:none;white-space:nowrap}
 .copy{font:inherit;font-size:12px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:8px;padding:6px 10px;min-height:36px}
 small.end{color:var(--muted);text-align:center;font-size:12px}
-.mapcard{padding:12px;gap:10px}
+.mapcard{padding:12px;gap:10px;background:rgba(40,51,90,.92)}
 .mapcard #mapbox{display:flex;flex-direction:column;gap:10px}
 .chips{display:flex;gap:6px}
 .chip{flex:1 1 0;min-width:0;min-height:38px;padding:0 6px;border-radius:99px;border:1.5px solid var(--c);background:transparent;color:var(--fg);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
@@ -371,7 +371,7 @@ function renderMap(){
  var p=pById(MSEL),h2='';
  h2+='<div class="chips" role="group" aria-label="일차 선택">';
  [[0,'전체 map'],[1,'1일 동선'],[2,'2일 동선'],[3,'3일 동선'],[4,'4일 동선']].forEach(function(c){
-  h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#fff')+'">'+c[1]+'</button>';
+  h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#d9d9d9')+'">'+c[1]+'</button>';
  });
  h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
 
