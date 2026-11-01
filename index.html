@@ -196,6 +196,14 @@ svg.map .pt text.nm{font:700 8.5px var(--f-body);fill:#fff;paint-order:stroke;st
 .ckall .ckg h4 small{font-size:12px;font-weight:400;color:var(--muted)}
 .ckall .ckg h4 .cnt{margin-left:auto;font:600 12px var(--f-mono);color:var(--muted)}
 .ckall>summary:focus-visible{outline:3px solid var(--d2);outline-offset:2px}
+
+.modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) 12px max(12px,env(safe-area-inset-bottom,0px));background:rgba(5,8,18,.82)}
+.modal[hidden]{display:none}
+.modal .mbox{position:relative;width:100%;max-width:720px;max-height:100%;overflow:auto;border-radius:10px;background:#fff;-webkit-overflow-scrolling:touch}
+.modal img{display:block;width:100%;height:auto}
+.modal .mclose{position:sticky;top:8px;float:right;margin:8px 8px -48px 0;z-index:1;width:40px;height:40px;border-radius:50%;border:0;background:rgba(10,14,28,.85);color:#fff;font:700 22px/40px var(--f-body);cursor:pointer}
+.modal .mclose:focus-visible{outline:3px solid var(--d2);outline-offset:2px}
+body.noscroll{overflow:hidden}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 
@@ -205,7 +213,7 @@ svg.map .pt text.nm{font:700 8.5px var(--f-body);fill:#fff;paint-order:stroke;st
   <div class="eyebrow">DREAM UP · 2026 · TOKYO</div>
   <h1>2026 미림 Dream up<br>글로벌 리더십 프로그램</h1>
   <div class="range"><b>11.3 → 11.6</b><span>화 ~ 금 · 3박 4일 · 일본 동경</span></div>
-  <div class="pills"><span class="pill">인천 ↔ 나리타 (OZ102 / OZ101)</span><span class="pill">전용버스 이동</span><a class="pill link" href="schedule.png" target="_blank" rel="noopener">공식일정표</a><a class="pill link" href="https://padlet.com/mirimmeister/2026tokyo-s0251r7r2jnvi8g9wg8f" target="_blank" rel="noopener">패들렛 이동 ›</a></div>
+  <div class="pills"><span class="pill">인천 ↔ 나리타 (OZ102 / OZ101)</span><span class="pill">전용버스 이동</span><a class="pill link" id="schedbtn" href="schedule.png">공식일정표</a><a class="pill link" href="https://padlet.com/mirimmeister/2026tokyo-s0251r7r2jnvi8g9wg8f" target="_blank" rel="noopener">패들렛 이동 ›</a></div>
 </div></header>
 
 <nav aria-label="일정 바로가기"><ul id="nav"></ul></nav>
@@ -506,6 +514,20 @@ function renderMap(){
  boxes.forEach(function(b){b.checked=!!st[b.dataset.k];b.addEventListener('change',function(){if(b.checked)st[b.dataset.k]=1;else delete st[b.dataset.k];save();upd()})});
  document.getElementById('ckreset').addEventListener('click',function(){st={};boxes.forEach(function(b){b.checked=false});save();upd()});
  upd();
+})();
+</script>
+
+<div class="modal" id="schedmodal" role="dialog" aria-modal="true" aria-label="공식 세부일정표" hidden><div class="mbox"><button type="button" class="mclose" aria-label="닫기">×</button><img src="schedule.png" alt="2026 미림 Dream up 도쿄 세부일정표"></div></div>
+<script>
+(function(){
+ var b=document.getElementById('schedbtn'),m=document.getElementById('schedmodal');if(!b||!m)return;
+ var c=m.querySelector('.mclose');
+ function open(e){e.preventDefault();m.hidden=false;document.body.classList.add('noscroll');m.querySelector('.mbox').scrollTop=0;c.focus()}
+ function close(){m.hidden=true;document.body.classList.remove('noscroll');b.focus()}
+ b.addEventListener('click',open);
+ c.addEventListener('click',close);
+ m.addEventListener('click',function(e){if(e.target===m)close()});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)close()});
 })();
 </script>
 
