@@ -321,10 +321,6 @@ h+='<section class="card" id="meet"><span class="label">출발 집결 · 11.3 (�
  '<p class="sub">창측 롯데관광 테이블 · N 31, 32번 카운터</p>'+
  
  '<ul class="checks"><li>출발 당일 유효한 <b>여권</b> (유효기간 6개월 이상, 훼손 없는지 확인)</li></ul></section>';
-h+='<section class="card" id="hotel"><span class="label">숙소 · 3박</span>'+
- '<h2>선샤인 시티 프린스 호텔 이케부쿠로<br><span class="sub">SUNSHINE CITY PRINCE HOTEL ⋆⋆⋆</span></h2>'+
- '<dl class="kv"><dt>주소</dt><dd>3 Chome-1-5 Higashiikebukuro, Toshima City, Tokyo 170-8440</dd><dt>전화</dt><dd>+81 3-3988-1111</dd></dl>'+
- '<a class="btn" href="'+HOTEL_LINK+'" target="_blank" rel="noopener">구글 지도에서 열기</a></section>';
 days.forEach(function(d){
  h+='<section class="day" id="'+d.id+'" style="--c:'+d.c+'">'+
  '<div class="day-h"><span class="dn">'+d.date+'</span><div class="dt"><b>'+esc(d.title)+'</b><span>'+d.n+'일차 · '+d.dow+'요일</span></div><span class="route">'+esc(d.route)+'</span></div>'+
