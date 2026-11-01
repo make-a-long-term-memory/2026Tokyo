@@ -225,6 +225,15 @@ body.noscroll{overflow:hidden}
 .modal .mbar a:focus-visible,.modal .mbar button:focus-visible{outline:3px solid #6aa2ff;outline-offset:2px}
 .modal .mbar .mclose{position:static;float:none;margin:0;width:auto;height:auto;min-height:38px;border-radius:99px;font:700 13px system-ui,sans-serif;line-height:1}
 body.noscroll{overflow:hidden}
+.plist>li{position:relative}
+.plist .pl{padding-bottom:22px}
+.plist .gm{position:absolute;right:6px;bottom:4px;font-size:11.5px;color:var(--muted);text-decoration:none;padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
+.plist .gm:focus-visible{outline:3px solid var(--d2);outline-offset:2px}
+.ckall>summary{background:var(--fg);border-radius:9px}
+.ckall .ckttl{color:var(--ink)}
+.ckall #pnum{color:#3a4466}
+.ckall>summary::after{color:#3a4466}
+.ckall[open]>summary{border-radius:9px 9px 0 0;margin-bottom:8px}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 
@@ -458,10 +467,10 @@ function renderMap(){
  });
  h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
 
- var h3='<div class="callout" style="--c:'+DC[p.day]+'"><span class="meta">'+(p.day?p.n+' · ':'')+DL[p.day]+' · '+esc(p.time)+'</span><span class="tt">'+esc(p.name)+'</span><span class="sub">'+esc(p.desc)+'</span>'+(MEAL[p.id]?'<span class="sub meal">식사: '+esc(MEAL[p.id])+'</span>':'')+'<a class="btn" href="'+ptLink(p)+'" target="_blank" rel="noopener">구글 지도에서 열기</a></div>';
+ var h3='';
  function row(q){
   var b=q.day===0?'<svg viewBox="-7 -9 14 18" width="12" height="15" aria-hidden="true" style="vertical-align:middle">'+bldg('#0a0e1c','#fff')+'</svg>':q.n;
-  return '<li><button type="button" class="pl'+(q.id===MSEL?' on':'')+'" data-id="'+q.id+'" style="--c:'+DC[q.day]+'"><span class="badge">'+b+'</span><span class="pb"><b>'+esc(q.name)+'</b><span class="sub">'+esc(q.time)+' · '+esc(q.desc)+'</span>'+(MEAL[q.id]?'<span class="sub meal">식사: '+esc(MEAL[q.id])+'</span>':'')+'</span></button></li>';
+  return '<li><button type="button" class="pl'+(q.id===MSEL?' on':'')+'" data-id="'+q.id+'" style="--c:'+DC[q.day]+'"><span class="badge">'+b+'</span><span class="pb"><b>'+esc(q.name)+'</b><span class="sub">'+esc(q.time)+' · '+esc(q.desc)+'</span>'+(MEAL[q.id]?'<span class="sub meal">식사: '+esc(MEAL[q.id])+'</span>':'')+'</span></button><a class="gm" href="'+ptLink(q)+'" target="_blank" rel="noopener">구글 지도 ↗</a></li>';
  }
  h3+='<ul class="plist">'+row(pById('h'));
  [1,2,3,4].forEach(function(d){
