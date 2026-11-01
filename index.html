@@ -356,7 +356,7 @@ function renderMap(){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#fff')+'">'+c[1]+'</button>';
  });
  h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
- h2+='<p class="sub mapnote">번호 1-2는 1일차 두 번째 일정이고, 점선 화살표는 이동 방향이에요. 흰 건물 모양은 숙소, 노란 글씨는 근처의 유명 명소, 런치·디너 표시는 식사 장소입니다. 배경은 Google 지도 화면을 희미하게 깐 것이고, 점 위치는 대략입니다. 확대 버튼이나 두 손가락으로 크게 볼 수 있습니다.</p>';
+
  h2+='<div class="callout" style="--c:'+DC[p.day]+'"><span class="meta">'+(p.day?p.n+' · ':'')+DL[p.day]+' · '+esc(p.time)+'</span><span class="tt">'+esc(p.name)+'</span><span class="sub">'+esc(p.desc)+'</span>'+(MEAL[p.id]?'<span class="sub meal">식사: '+esc(MEAL[p.id])+'</span>':'')+'<a class="btn" href="'+ptLink(p)+'" target="_blank" rel="noopener">구글 지도에서 열기</a></div>';
  function row(q){
   var b=q.day===0?'<svg viewBox="-7 -9 14 18" width="12" height="15" aria-hidden="true" style="vertical-align:middle">'+bldg('#0a0e1c','#fff')+'</svg>':q.n;
