@@ -255,6 +255,11 @@ a.chip.gmap{opacity:1;background:rgba(255,255,255,.15);border-radius:8px;padding
 nav a{display:flex;align-items:center;justify-content:center;height:34px;padding-top:0;padding-bottom:0;line-height:1}
 .ckall>summary #pnum{display:none}
 .ckall>summary::after{margin-left:auto;font-size:22px;line-height:1}
+.chips{flex-wrap:wrap;gap:5px 4px;justify-content:flex-start}
+.chip,.chip[aria-pressed="true"],.chip[aria-pressed="false"]{flex:0 0 auto;min-height:28px;padding:0 10px 1px;border:1.5px solid #0a0e1c;border-radius:99px;background:var(--c);color:#0b1020;font-weight:800;box-shadow:none;line-height:1}
+.chip[aria-pressed="false"]{opacity:.55}
+.chip[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 2px #fff}
+a.chip.gmap{background:rgba(255,255,255,.15);border-color:transparent;color:#8fe3d0;opacity:1}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 
@@ -484,7 +489,7 @@ function setupScroll(){
 function renderMap(){
  var p=pById(MSEL),h2='';
  h2+='<div class="chips" role="group" aria-label="일차 선택">';
- [[0,'전체 map'],[1,'1일 동선'],[2,'2일 동선'],[3,'3일 동선'],[4,'4일 동선']].forEach(function(c){
+ [[0,'전체 일정 동선'],[1,'1일차 동선'],[2,'2일차 동선'],[3,'3일차 동선'],[4,'4일차 동선']].forEach(function(c){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#d9d9d9')+'">'+c[1]+'</button>';
  });
  h2+='<a class="chip gmap" href="https://maps.app.goo.gl/BenwKEdtjcXNvyv5A" target="_blank" rel="noopener" style="--c:#8fe3d0">구글맵 ↗</a>';
