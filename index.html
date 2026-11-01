@@ -398,7 +398,7 @@ function bldg(body,win){
 var ROUTES={1:['a1','a2','h','a3'],2:['h','b1','b2','b3','h'],3:['h','c1','c2'],4:['h','d1']};
 function arrowSVG(x0,y0,x1,y1,d,dim){
  var ang=Math.atan2(y1-y0,x1-x0)*180/Math.PI;
- return '<g opacity="'+(dim?.15:.95)+'" style="stroke:'+DC[d]+';fill:'+DC[d]+'"><line x1="'+f1(x0)+'" y1="'+f1(y0)+'" x2="'+f1(x1)+'" y2="'+f1(y1)+'" stroke-width="2.6" stroke-dasharray="0.1 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/><g class="ar" data-x="'+f1(x1)+'" data-y="'+f1(y1)+'"><g transform="rotate('+f1(ang)+')"><path d="M-3.6,-3.2L0.8,0L-3.6,3.2" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g></g>';
+ return '<g opacity="'+(dim?.15:.95)+'" style="stroke:'+DC[d]+';fill:'+DC[d]+'"><line x1="'+f1(x0)+'" y1="'+f1(y0)+'" x2="'+f1(x1)+'" y2="'+f1(y1)+'" stroke-width="2.6" stroke-dasharray="0.1 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/><g class="ar" data-x="'+f1(x1)+'" data-y="'+f1(y1)+'"><g transform="rotate('+f1(ang)+')"><path d="M-4.2,-3.4L1.6,0L-4.2,3.4Z" stroke="none"/></g></g></g>';
 }
 function routesSVG(){
  var s='';
@@ -406,7 +406,7 @@ function routesSVG(){
   var ids=ROUTES[d],dim=MF&&MF!==d;
   for(var i=0;i<ids.length-1;i++){
    var A=pById(ids[i]),B=pById(ids[i+1]),dx=B.x-A.x,dy=B.y-A.y;
-   if(Math.hypot(dx,dy)<44||A.id==='b1')continue;
+   if(Math.hypot(dx,dy)<44)continue;
    var u0=.33,u1=.67;if(B.id==='c1'){u0=.45;u1=.75}else if(A.id==='c1'){u0=.4;u1=.7}
    s+=arrowSVG(A.x+dx*u0,A.y+dy*u0,A.x+dx*u1,A.y+dy*u1,d,dim);
   }
