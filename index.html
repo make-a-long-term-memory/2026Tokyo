@@ -236,6 +236,8 @@ body.noscroll{overflow:hidden}
 .ckall[open]>summary{border-radius:9px 9px 0 0;margin-bottom:8px}
 .chip{flex:1 1 auto}
 a.chip{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.mapscroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.mapscroll svg.map{width:145%;max-width:none}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 
@@ -266,7 +268,7 @@ var days=[
  ['12:30','도쿄 시내로 이동','약 1시간 30분 소요',[],0],
  ['14:00','우에노 공원 산책','',[['우에노 공원','上野公園']],1],
  ['14:00','현지식 (햄버거 콤보)','나리타 공항에서 받은 햄버거 세트',[],0,'','중식'],
- ['14:30','국립과학박물관 · 국립서양미술관 견학','근처: 도쿄도미술관 (서양미술관에서 도보 5분)',[['국립과학박물관','国立科学博物館'],['국립서양미술관','国立西洋美術館'],['도쿄도미술관','東京都美術館'],['서양미술관 소장품 소개 ↗','https://www.nmwa.go.jp/ko/collection/introduction.html',1,'info']],0],
+ ['14:30','국립과학박물관 · 국립서양미술관 견학','',[['국립과학박물관','国立科学博物館'],['국립서양미술관','国立西洋美術館'],['서양미술관 소장품 소개 ↗','https://www.nmwa.go.jp/ko/collection/introduction.html',1,'info']],0],
  ['16:30','도쿄 타워 견학','',[['도쿄 타워','東京タワー']],1],
  ['17:30','호텔 이동','',[],0],
  ['18:00','호텔 체크인','',[['선샤인 시티 프린스 호텔',HOTEL_LINK,1]],1],
@@ -444,7 +446,7 @@ function applyView(){
   g.setAttribute('transform','translate('+g.getAttribute('data-x')+' '+g.getAttribute('data-y')+') scale('+k+')');
   if(g.hasAttribute('data-minor'))g.style.display=V.z>=2?'':'none';
  });
- svg.style.touchAction=V.z>1.01?'none':'pan-y';
+ svg.style.touchAction=V.z>1.01?'none':'pan-x pan-y';
  var z=document.querySelector('#mapbox .zb[data-z="in"]'),o=document.querySelector('#mapbox .zb[data-z="out"]');
  if(z)z.disabled=V.z>=ZMAX-0.01;if(o)o.disabled=V.z<=1.01;
 }
@@ -459,7 +461,7 @@ function renderMap(){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#d9d9d9')+'">'+c[1]+'</button>';
  });
  h2+='<a class="chip gmap" href="https://maps.app.goo.gl/BenwKEdtjcXNvyv5A" target="_blank" rel="noopener" style="--c:#8fe3d0">구글맵 ↗</a>';
- h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
+ h2+='</div><div class="mapwrap"><div class="mapscroll">'+mapSVG()+'</div><div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
 
  var h3='';
  function row(q){
