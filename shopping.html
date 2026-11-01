@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%23141c3c'/%3E%3Cpath%20d='M16%203.5%2021.6%2028h-2.9L16%2015.5%2013.3%2028h-2.9z'%20fill='%23ff6a3d'/%3E%3Cpath%20d='M10.6%2020h10.8v2.2H10.6zM12.6%2012.4h6.8v1.8h-6.8z'%20fill='%23fff'/%3E%3Ccircle%20cx='16'%20cy='3.6'%20r='1.4'%20fill='%23ffd9a0'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap">
 <style>
-:root{--bg:#0a0e1c;--card:rgba(20,27,52,.92);--fg:#e8ecf8;--muted:#a8b2d2;--line:rgba(255,255,255,.14);
+:root{--bg:#0a0e1c;--card:rgba(20,27,52,.8);--fg:#e8ecf8;--muted:#a8b2d2;--line:rgba(255,255,255,.14);
 --d1:#52c283;--d2:#6aa2ff;--d3:#ff9a4d;--d4:#b98cf0;
 --f-body:'Noto Sans KR',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color-scheme:dark}
 *{box-sizing:border-box}
@@ -37,9 +37,11 @@ body{padding-top:0!important}
 nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px))) 0;padding:8px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid transparent;transition:background .2s,border-color .2s}
 nav.top.stuck{background:rgba(10,14,28,.72);border-bottom-color:var(--line);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 nav.top ul{list-style:none;margin:0 auto;padding:0;max-width:560px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
-nav.top li{flex:0 0 auto;display:block;padding:0;border:0}
+nav.top li{flex:1 1 auto;display:block;padding:0;border:0}
 nav.top a{display:block;text-align:center;text-decoration:none;font-size:13px;font-weight:700;padding:7px 12px;border-radius:8px;background:var(--card);border:1px solid var(--line);white-space:nowrap;color:var(--fg)}
-nav.top a.day{color:var(--c);padding:7px 9px}
+nav.top a{padding-left:7px;padding-right:7px}
+@media (max-width:600px){nav.top ul{gap:4px}nav.top a{font-size:12px;padding-left:5px;padding-right:5px}nav.top a .dw{display:none}}@media (max-width:440px){nav.top ul{gap:2px}nav.top a{font-size:11.5px;padding-left:3.5px;padding-right:3.5px;letter-spacing:-.03em}}
+nav.top a.dl{color:var(--c)}
 nav.top a.go{color:#ffd9a0}
 nav.top a.ext{color:#8fe3d0}
 nav.top a.cur{background:#ffd9a0;border-color:#ffd9a0;color:#0a0e1c}
@@ -49,7 +51,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 </style>
 </head>
 <body>
-<nav class="top" aria-label="일정 바로가기"><ul><li><a href="checklist.html" class="go">Check !</a></li><li><a class="day" href="index.html#d1" style="--c:var(--d1)">11.3 화</a></li><li><a class="day" href="index.html#d2" style="--c:var(--d2)">11.4 수</a></li><li><a class="day" href="index.html#d3" style="--c:var(--d3)">11.5 목</a></li><li><a class="day" href="index.html#d4" style="--c:var(--d4)">11.6 금</a></li><li><a href="shopping.html" class="go cur" aria-current="page">쇼핑</a></li><li><a href="sights.html" class="go">디자인관점</a></li></ul></nav>
+<nav class="top" aria-label="일정 바로가기"><ul><li><a href="checklist.html" class="go">Check !</a></li><li><a class="dl" href="index.html#d1" style="--c:var(--d1)">11.3<span class="dw"> 화</span></a></li><li><a class="dl" href="index.html#d2" style="--c:var(--d2)">11.4<span class="dw"> 수</span></a></li><li><a class="dl" href="index.html#d3" style="--c:var(--d3)">11.5<span class="dw"> 목</span></a></li><li><a class="dl" href="index.html#d4" style="--c:var(--d4)">11.6<span class="dw"> 금</span></a></li><li><a href="shopping.html" class="go cur" aria-current="page">쇼핑리스트</a></li><li><a href="shibuya.html" class="go">시부야</a></li><li><a href="sights.html" class="go">디자인관점</a></li></ul></nav>
 <main class="wrap">
 <h1>이케부쿠로 쇼핑</h1>
 <p class="note">숙소 기준 · 문구·잡화·캐릭터·옷 · 도보 시간은 추정</p>
