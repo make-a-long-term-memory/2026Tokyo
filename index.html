@@ -204,6 +204,27 @@ svg.map .pt text.nm{font:700 8.5px var(--f-body);fill:#fff;paint-order:stroke;st
 .modal .mclose{position:sticky;top:8px;float:right;margin:8px 8px -48px 0;z-index:1;width:40px;height:40px;border-radius:50%;border:0;background:rgba(10,14,28,.85);color:#fff;font:700 22px/40px var(--f-body);cursor:pointer}
 .modal .mclose:focus-visible{outline:3px solid var(--d2);outline-offset:2px}
 body.noscroll{overflow:hidden}
+
+.top{background:transparent;text-shadow:0 1px 8px rgba(0,0,0,.55);color:#e8ecf8;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:28px max(16px,env(safe-area-inset-left,0px)) 20px}
+.top-in{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.top .eyebrow{font:500 12px/1 'IBM Plex Mono',ui-monospace,Menlo,monospace;letter-spacing:.08em;opacity:.75}
+.top h1.ttl{margin:0;font-size:clamp(14px,4.3vw,23px);line-height:1.2;font-weight:900;white-space:nowrap;text-wrap:nowrap}
+.top .range{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.top .range b{font:600 28px/1 'IBM Plex Mono',ui-monospace,Menlo,monospace}
+.top .range span{opacity:.8;font-size:14px}
+.top .pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.top .pill{display:inline-flex;align-items:center;min-height:30px;box-sizing:border-box;font-size:12px;line-height:1.2;padding:0 10px;border-radius:99px;border:1px solid rgba(232,236,248,.35);color:#e8ecf8}
+.top .pill.link{border-color:#ffd9a0;color:#fff;text-decoration:none;font-weight:400;background:rgba(10,14,28,.35)}
+.top .pill.link:focus-visible{outline:3px solid #6aa2ff;outline-offset:2px}
+.modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) 5vw max(12px,env(safe-area-inset-bottom,0px));background:rgba(5,8,18,.82)}
+.modal[hidden]{display:none}
+.modal .mbox{position:relative;width:100%;max-width:720px;max-height:100%;overflow:auto;border-radius:10px;background:#fff;-webkit-overflow-scrolling:touch}
+.modal img{display:block;width:100%;height:auto}
+.modal .mbar{position:sticky;top:0;z-index:1;display:flex;justify-content:flex-end;gap:8px;padding:8px;background:rgba(255,255,255,.92)}
+.modal .mbar a,.modal .mbar button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 14px;border-radius:99px;border:0;background:#0a0e1c;color:#fff;font:700 13px system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.modal .mbar a:focus-visible,.modal .mbar button:focus-visible{outline:3px solid #6aa2ff;outline-offset:2px}
+.modal .mbar .mclose{position:static;float:none;margin:0;width:auto;height:auto;min-height:38px;border-radius:99px;font:700 13px system-ui,sans-serif;line-height:1}
+body.noscroll{overflow:hidden}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 
@@ -211,7 +232,7 @@ body.noscroll{overflow:hidden}
 <body>
 <header class="top"><div class="top-in">
   <div class="eyebrow">DREAM UP · 2026 · TOKYO</div>
-  <h1>2026 미림 Dream up<br>글로벌 리더십 프로그램</h1>
+  <h1 class="ttl">2026 미림 Dream up 글로벌 리더십 프로그램</h1>
   <div class="range"><b>11.3 → 11.6</b><span>화 ~ 금 · 3박 4일 · 일본 동경</span></div>
   <div class="pills"><span class="pill">인천 ↔ 나리타 (OZ102 / OZ101)</span><span class="pill">전용버스 이동</span><a class="pill link" id="schedbtn" href="schedule.png">공식일정표</a><a class="pill link" href="https://padlet.com/mirimmeister/2026tokyo-s0251r7r2jnvi8g9wg8f" target="_blank" rel="noopener">패들렛 이동 ›</a></div>
 </div></header>
@@ -348,7 +369,7 @@ var LBL=[
  ['오다이바',35.6290,139.7750,5,3,'start',0,0,1,'lm'],
 ];
 var MEAL={h:'조식 · 호텔식 (2~4일차)',a3:'석식 · 자유식 (엔화 2,000엔), 선샤인 시티 일대',a3:'석식 · 자유식 (엔화 2,000엔), 선샤인 시티 일대',a1:'중식 · 현지식 (햄버거 콤보)',b2:'중식 · 도시락 (학교 제공)',b3:'석식 · 자유식 (엔화 2,000엔)',c1:'중식 · 자유식 (엔화 2,000엔). 석식은 야키니쿠'};
-var TAG={a3:'디너',a1:'런치',b2:'런치',b3:'디너',c1:'런치·디너'};
+var TAG={a3:'디너',a1:'런치',b2:'런치',b3:'디너',c1:'런치'};
 var TGO={a3:[0,13],a1:[-27,8],b2:[13,-5],b3:[5,8],c1:[-16,-18]};
 var MSEL='h',MF=0,V={z:1,cx:MW/2,cy:MH/2},ZMAX=5;
 PTS.forEach(function(p){p.x=mx(p.lng)+(p.dx||0);p.y=my(p.lat)+(p.dy||0)});
@@ -517,17 +538,24 @@ function renderMap(){
 })();
 </script>
 
-<div class="modal" id="schedmodal" role="dialog" aria-modal="true" aria-label="공식 세부일정표" hidden><div class="mbox"><button type="button" class="mclose" aria-label="닫기">×</button><img src="schedule.png" alt="2026 미림 Dream up 도쿄 세부일정표"></div></div>
+<div class="modal" id="schedmodal" role="dialog" aria-modal="true" aria-label="공식 세부일정표" hidden><div class="mbox"><div class="mbar"><a class="mdl" href="schedule.png" download="2026-tokyo-schedule.png">다운로드</a><button type="button" class="mclose" aria-label="닫기">닫기 ×</button></div><img src="schedule.png" alt="2026 미림 Dream up 도쿄 세부일정표"></div></div>
 <script>
 (function(){
  var b=document.getElementById('schedbtn'),m=document.getElementById('schedmodal');if(!b||!m)return;
- var c=m.querySelector('.mclose');
+ var c=m.querySelector('.mclose'),d=m.querySelector('.mdl');
  function open(e){e.preventDefault();m.hidden=false;document.body.classList.add('noscroll');m.querySelector('.mbox').scrollTop=0;c.focus()}
  function close(){m.hidden=true;document.body.classList.remove('noscroll');b.focus()}
- b.addEventListener('click',open);
- c.addEventListener('click',close);
+ b.addEventListener('click',open);c.addEventListener('click',close);
  m.addEventListener('click',function(e){if(e.target===m)close()});
  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)close()});
+ d.addEventListener('click',function(e){
+  if(!window.claude||!window.claude.use)return; /* 일반 웹에서는 링크로 바로 다운로드 */
+  e.preventDefault();
+  window.claude.use('downloads').then(function(dl){
+   if(!dl){window.open(d.href,'_blank');return}
+   return fetch(d.href).then(function(r){return r.blob()}).then(function(bl){return dl.save({filename:'2026-tokyo-schedule.png',data:bl})});
+  }).catch(function(){});
+ });
 })();
 </script>
 
