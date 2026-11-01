@@ -214,7 +214,7 @@ body.noscroll{overflow:hidden}
 .top .range span{opacity:.8;font-size:14px}
 .top .pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .top .pill{display:inline-flex;align-items:center;min-height:30px;box-sizing:border-box;font-size:12px;line-height:1.2;padding:0 10px;border-radius:99px;border:1px solid rgba(232,236,248,.35);color:#e8ecf8}
-.top .pill.link{border-color:#ffd9a0;color:#fff;text-decoration:none;font-weight:400;background:rgba(10,14,28,.35)}
+.top .pill.link{border:0;background:none;min-height:30px;padding:0 4px;color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.45);font-weight:400}
 .top .pill.link:focus-visible{outline:3px solid #6aa2ff;outline-offset:2px}
 .modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) 5vw max(12px,env(safe-area-inset-bottom,0px));background:rgba(5,8,18,.82)}
 .modal[hidden]{display:none}
@@ -234,6 +234,8 @@ body.noscroll{overflow:hidden}
 .ckall #pnum{color:#3a4466}
 .ckall>summary::after{color:#3a4466}
 .ckall[open]>summary{border-radius:9px 9px 0 0;margin-bottom:8px}
+.chip{flex:1 1 auto}
+a.chip{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 
@@ -243,7 +245,7 @@ body.noscroll{overflow:hidden}
   <div class="eyebrow">DREAM UP · 2026 · TOKYO</div>
   <h1 class="ttl">2026 미림 Dream up 글로벌 리더십 프로그램</h1>
   <div class="range"><b>11.3 → 11.6</b><span>화 ~ 금 · 3박 4일 · 일본 동경</span></div>
-  <div class="pills"><span class="pill">인천 ↔ 나리타 (OZ102 / OZ101)</span><span class="pill">전용버스 이동</span><a class="pill link" id="schedbtn" href="schedule.png">공식일정표</a><a class="pill link" href="https://padlet.com/mirimmeister/2026tokyo-s0251r7r2jnvi8g9wg8f" target="_blank" rel="noopener">패들렛 이동 ›</a></div>
+  <div class="pills"><span class="pill">인천 ↔ 나리타 (OZ102 / OZ101)</span><a class="pill link" id="schedbtn" href="schedule.png">공식일정표</a><a class="pill link" href="https://padlet.com/mirimmeister/2026tokyo-s0251r7r2jnvi8g9wg8f" target="_blank" rel="noopener">패들렛 이동 ›</a></div>
 </div></header>
 
 <nav aria-label="일정 바로가기"><ul id="nav"></ul></nav>
@@ -258,7 +260,7 @@ var days=[
  meals:[['조','—'],['중','현지식 (햄버거 콤보)'],['석','자유식 · 2,000엔 지급']],
  stay:'선샤인 시티 프린스 호텔 (2인 1실) 또는 동급',
  items:[
- ['06:00','인천공항 제2터미널 3층 N카운터 집결','롯데관광 테이블 (N 31·32번 카운터)',[],1],
+ ['06:00','인천공항 제2터미널 3층 N카운터 집결','창측 롯데관광 테이블 · N 31, 32번 카운터',[],1,'출발 당일 유효한 여권 지참 (유효기간 6개월 이상, 훼손 없는지 확인)'],
  ['09:00','인천 국제공항 출발','OZ102',[],1],
  ['11:20','나리타 국제공항 도착, 입국 수속','입국 수속 후 인원 확인, 버스 탑승. 나리타 공항에서 햄버거 세트 수령',[],0],
  ['12:30','도쿄 시내로 이동','약 1시간 30분 소요',[],0],
@@ -316,11 +318,6 @@ function mapLink(m){var href=m[2]?m[1]:MAP+encodeURIComponent(m[1]);var ext=/^ht
 var CKHTML="<details class=\"ckall\" id=\"check\"><summary><span class=\"ckttl\">Check ! · 준비물 체크리스트<\/span><b id=\"pnum\">0 / 24<\/b><\/summary><div class=\"ckin\"><div class=\"prog\"><div class=\"bar\"><i id=\"pbar\"><\/i><\/div><button type=\"button\" id=\"ckreset\">초기화<\/button><\/div><p class=\"ckh\">1. 짐싸기 <small>몸에 지니고 탈 것은 기내 가방에, 나머지는 캐리어에<\/small><\/p><div class=\"ckg\" style=\"--c:var(--d1)\"><h4><b>숙소 주변 정보<\/b><span class=\"cnt\"><\/span><\/h4><ul><li><span><b>호텔<\/b> : 선샤인 시티 프린스 호텔 이케부쿠로<\/span><\/li><li><span><b>주소<\/b> : 3 Chome-1-5 Higashiikebukuro, Toshima City, Tokyo 170-8440<\/span><\/li><li><span><b>전화<\/b> : +81 3-3988-1111<\/span><\/li><li><span><b>편의점<\/b> : 호텔 1층 패밀리마트 · 24시간 · 도시락·음료·문구·기념품, ATM<\/span><\/li><li><span><b>쇼핑몰<\/b> : 호텔과 연결된 선샤인시티 전문점가 알파 · 약 150개 매장 · 상점 10:00~20:00, 식당 11:00~22:00<\/span><\/li><li><span><b>캐릭터<\/b> : 포켓몬센터 메가도쿄 · 알파 2층<\/span><\/li><li><span><b>역<\/b> : 히가시이케부쿠로역(유라쿠초선) 6·7번 출구 도보 약 3분 · 이케부쿠로역 35번 출구 도보 약 8분<\/span><\/li><\/ul><\/div><div class=\"ckg\" style=\"--c:var(--d1)\"><h4><b>기내 가방<\/b> <small>직접 들고 탈 것<\/small><span class=\"cnt\"><\/span><\/h4><ul><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c1\"><span><b>여권<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c2\"><span><b>엔화 현금, 해외결제 카드<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c3\"><span><b>동전 지갑<\/b> : 작은 지갑류·미니 지퍼백<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c4\"><span><b>휴대폰<\/b> : 충전 케이블, 이어폰<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c5\"><span><b>보조배터리 1~2개<\/b> : 100Wh 이하(약 27,000mAh 이하) · 반드시 소지하고 탑승 · 단자에 절연 테이프 또는 개별 비닐 포장 · 기내 사용 금지<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c6\"><span><b>학생증<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c7\"><span><b>볼펜, 메모지<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c8\"><span><b>우산<\/b> : 비 예보<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c9\"><span><b>쓰레기봉투용 비닐<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c10\"><span><b>가벼운 겉옷<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c11\"><span><b>평소 복용약, 멀미약<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c12\"><span><b>위생용품<\/b> : 손수건, 물티슈, 휴대용 휴지, 마스크<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c13\"><span><b>액체·젤류<\/b> : 100ml 이하 용기에 담아 1L 투명 지퍼백에<\/span><\/label><\/li><li class=\"nt\"><span>※ 학생증과 여권, 배터리 관련 물품은 꺼내기 쉽고 안전한 곳에 보관하세요.<\/span><\/li><\/ul><\/div><div class=\"ckg\" style=\"--c:var(--d1)\"><h4><b>기타<\/b><span class=\"cnt\"><\/span><\/h4><ul><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c14\"><span><b>작은 백팩이나 크로스백<\/b> : 현지에서 들고 다닐 가방<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c15\"><span><b>필기구·작은 노트<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c16\"><span><b>비닐봉투 2~3장<\/b> : 빨래·젖은 옷용<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c17\"><span><b>캐리어 이름표, 자물쇠·벨트<\/b><\/span><\/label><\/li><\/ul><\/div><div class=\"ckg\" style=\"--c:var(--d3)\"><h4><b>넣으면 안 되는 것<\/b> <small>기내 가방 / 캐리어<\/small><span class=\"cnt\"><\/span><\/h4><ul><li><span><b>보조배터리<\/b> : 기내 필수 · 캐리어 금지<\/span><\/li><li><span><b>여권·현금·카드·휴대폰<\/b> : 기내 필수 · 캐리어 권장 안 함<\/span><\/li><li><span><b>액체·젤 100ml 이하(1L 지퍼백)<\/b> : 기내 가능 · 캐리어 가능<\/span><\/li><li><span><b>액체·젤 100ml 초과<\/b> : 기내 불가 · 캐리어 가능<\/span><\/li><li><span><b>칼·가위·칼 달린 손톱깎이<\/b> : 기내 불가 · 캐리어 가능<\/span><\/li><li class=\"nt\"><span>육포·소시지·햄 같은 육가공품과 생과일은 일본 반입 금지라 아예 가져가지 마세요.<\/span><\/li><li class=\"nt\"><span>캐리어는 30% 정도 비워 가면 기념품 넣기 편합니다.<\/span><\/li><\/ul><\/div><p class=\"ckh\">2. 출발 전 준비 <small>휴대폰 준비, 현지에서는 세금 포함 금액으로 계산<\/small><\/p><div class=\"ckg\" style=\"--c:var(--d2)\"><h4><b>필수 앱 설치<\/b><span class=\"cnt\"><\/span><\/h4><ul><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c18\"><span><b>번역 앱<\/b> : 파파고·구글 번역<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c19\"><span><b>구글 렌즈<\/b> : 간판·메뉴판을 찍어서 번역<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c20\"><span><b>도쿄 디즈니리조트 공식 앱<\/b><\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c21\"><span><b>구글 지도<\/b><\/span><\/label><\/li><\/ul><\/div><div class=\"ckg\" style=\"--c:var(--d2)\"><h4><b>휴대폰 정리<\/b><span class=\"cnt\"><\/span><\/h4><ul><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c22\"><span><b>저장공간 확인<\/b> : 사진·영상 찍을 여유 공간 확보<\/span><\/label><\/li><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c23\"><span><b>배터리 소모가 큰 앱 정리<\/b> : 백그라운드 실행 정지<\/span><\/label><\/li><\/ul><\/div><div class=\"ckg\" style=\"--c:var(--d2)\"><h4><b>쇼핑할 때<\/b><span class=\"cnt\"><\/span><\/h4><ul><li class=\"ck\"><label><input type=\"checkbox\" data-k=\"c24\"><span><b>세금 포함 금액(税込)으로 확인<\/b> : 税抜·税別은 세금 별도 가격<\/span><\/label><\/li><li class=\"nt\"><span>일본 소비세는 기념품·화장품 같은 일반 물건과 식당 식사가 10%, 편의점·마트에서 사는 포장 음식·음료가 8%입니다. 식품 세율을 1%로 낮추는 조치는 2027년 4월부터라 이번 여행과는 상관없습니다.<\/span><\/li><\/ul><\/div><div class=\"ckg\" style=\"--c:#ff8f8f\"><h4><b>긴급연락처<\/b><span class=\"cnt\"><\/span><\/h4><ul><li><span><b>본사<\/b> : 02-2075-3810<\/span><\/li><li><span><b>호텔<\/b> : +81 3-3988-1111<\/span><\/li><li><span><b>일본 경찰 / 구급·소방<\/b> : 110 / 119<\/span><\/li><li><span><b>외교부 영사콜센터<\/b> : +82-2-3210-0404<\/span><\/li><\/ul><\/div><p class=\"sub\">체크 표시는 이 기기의 브라우저에만 저장됩니다.<\/p><\/div><\/details>";
 var h='';
 h+='<section class="card mapcard" id="map"><span class="label">주요 일정 지도</span><div id="mapbox"></div>'+CKHTML+'<div id="mapinfo"></div></section>';
-h+='<section class="card" id="meet"><span class="label">출발 집결 · 11.3 (화)</span>'+
- '<p class="big">오전 6:00<br>인천공항 제2터미널 3층 N카운터</p>'+
- '<p class="sub">창측 롯데관광 테이블 · N 31, 32번 카운터</p>'+
- 
- '<ul class="checks"><li>출발 당일 유효한 <b>여권</b> (유효기간 6개월 이상, 훼손 없는지 확인)</li></ul></section>';
 days.forEach(function(d){
  h+='<section class="day" id="'+d.id+'" style="--c:'+d.c+'">'+
  '<div class="day-h"><span class="dn">'+d.date+'</span><div class="dt"><b>'+esc(d.title)+'</b><span>'+d.n+'일차 · '+d.dow+'요일</span></div><span class="route">'+esc(d.route)+'</span></div>'+
@@ -461,6 +458,7 @@ function renderMap(){
  [[0,'전체 map'],[1,'1일 동선'],[2,'2일 동선'],[3,'3일 동선'],[4,'4일 동선']].forEach(function(c){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#d9d9d9')+'">'+c[1]+'</button>';
  });
+ h2+='<a class="chip gmap" href="https://maps.app.goo.gl/BenwKEdtjcXNvyv5A" target="_blank" rel="noopener" style="--c:#8fe3d0">구글맵 ↗</a>';
  h2+='</div><div class="mapwrap">'+mapSVG()+'<div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
 
  var h3='';
