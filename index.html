@@ -267,6 +267,8 @@ a.chip.gmap{background:rgba(255,255,255,.15);border-radius:8px;color:#8fe3d0;pad
 a.chip.gmap{background:#d9d9d9;color:#0b1020}
 .chips{gap:6px 12px}
 a.chip.gmap{flex:1 1 auto;min-height:34px;justify-content:center}
+a.chip.gmap{height:34px;min-height:0;align-self:center;box-sizing:border-box;padding-top:0;padding-bottom:0;line-height:1}
+.chips{align-items:center}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 
@@ -499,7 +501,7 @@ function renderMap(){
  [[0,'전체 일정 동선'],[1,'1일차 동선'],[2,'2일차 동선'],[3,'3일차 동선'],[4,'4일차 동선']].forEach(function(c){
   h2+='<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(MF===c[0])+'" style="--c:'+(c[0]?DC[c[0]]:'#d9d9d9')+'">'+c[1]+'</button>';
  });
- h2+='<a class="chip gmap" href="https://maps.app.goo.gl/BenwKEdtjcXNvyv5A" target="_blank" rel="noopener" style="--c:#8fe3d0">구글맵 ↗</a>';
+ h2+='<a class="chip gmap" href="https://maps.app.goo.gl/BenwKEdtjcXNvyv5A" target="_blank" rel="noopener" style="--c:#8fe3d0">Google Map &gt;</a>';
  h2+='</div><div class="mapwrap"><div class="mapscroll">'+mapSVG()+'</div><div class="sbar" aria-hidden="true"><i></i></div><button type="button" class="dishint" aria-label="디즈니씨 방향으로 지도 이동">디즈니씨 ↘</button><div class="zoomctl"><button type="button" class="zb" data-z="in" aria-label="확대">+</button><button type="button" class="zb" data-z="out" aria-label="축소">−</button><button type="button" class="zb wide" data-z="reset">처음</button></div><span class="mapcredit">지도 © Google</span></div>';
 
  var h3='';
